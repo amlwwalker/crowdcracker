@@ -7,7 +7,8 @@
         <script src="_js/d3.cloud.js"></script>
         <script src="_js/jquery.js"></script>
 
-        <link href='http://fonts.googleapis.com/css?family=Hind:400,300,700,600,500' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Hind:400,300,700,600,500' rel='stylesheet' type='text/css'>
 
         <style>
             * {
@@ -20,15 +21,24 @@
                 font-weight: 300;
             }
             #container {
-                width: 640px;
-                margin: 50px auto;
+                width: 620px;
+                margin: 15px auto;
                 border: 1px solid #bbb;
                 border-radius: 5px;
                 box-shadow: 0px 2px 8px #ccc;
                 background: #f7f7f7;
             }
+            #logo{
+                padding: 15px;
+                background: #ccc;
+                text-align: center;
+                font-size: 1.25em;
+                font-weight: 600;
+                font-family: 'Montserrat', sans-serif;
+                text-shadow: 0px 1px 2px #aaa;
+            }
             #cloud-container {
-                padding:20px;
+                padding:10px;
             }
             #cloud-svg {
                 
@@ -48,6 +58,7 @@
                 color: steelblue;
             }
             .input-box {
+                text-align: center;
                 border-radius: 3px 3px 0px 0px;
                 border-bottom: 0px;
             }
@@ -73,6 +84,7 @@
     <body>
 
         <div id="container">
+            <div id="logo">GO|OG</div>
             <div id="cloud-container"></div>
             <div class="input-container">
                 <input type="text" class="input-box" placeholder="Submit your answer" />
@@ -87,69 +99,82 @@
                 var attempt = $('input.input-box').val();
                 if ( answer == attempt ) {
                     alert('Correct');
+                    $('#cloud-container').html('');
+                    createCloud();
                 }
                 else {
-                    alert('Incorrect');
+                    alert('Incorrect, try again');
                 }
             }
 
-            //get the array of hintfile names
-            $.getJSON("_data/hintFiles.json", function (json) {
-                //create a random number
-                var rand = Math.random();
-                rand *= json.length;
-                rand = Math.floor(rand);
+            function createCloud () {
+                //get the array of hintfile names
+                $.getJSON("_data/hintFiles.json", function (json) {
+                    //create a random number
+                    var rand = Math.random();
+                    rand *= json.length;
+                    rand = Math.floor(rand);
 
-                answer = json[rand].replace('.hints','').replace('knownHints/','');
+                    answer = json[rand].replace('.hints','').replace('knownHints/','');
 
-                //use the random number to get an entry from the array and
-                //process the random file for the word cloud
-                $.getJSON( '_data/' + json[rand], function (json) {
-                  
-                    var fill = d3.scale.category20();  
-                    d3.layout.cloud().size([600, 500])
-                        .words(json)
-                        .padding(5)
-                        .rotate( function () { return 0; } )
-                        .font("Impact")
-                        .fontSize( function (d) { 
-                            if ( d.size/8 < 18 ) {
-                                return 18;
-                            } 
-                            else if ( d.size/8 > 45 ) {
-                                return 45
-                            } 
-                            else {
-                                return d.size/8
-                            }
-                        } )
-                        .on("end", draw)
-                        .start();
-
-                    function draw(words) {
-                        d3.select("#cloud-container").append("svg").attr("id","cloud-svg")
-                            .attr("width", 600)
-                            .attr("height", 500)
-                            .append("g").attr("transform", "translate(300,250)")
-                            .selectAll("text")
-                            .data(words)
-                            .enter().append("text")
-                            .style("font-size", function (d) { return d.size + "px"; } )
-                            //.style("font-family", "Impact")
-                            .style("fill", function (d, i) { return fill(i); } )
-                            .attr("text-anchor", "middle")
-                            .attr("transform", function (d) {
-                                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                    //use the random number to get an entry from the array and
+                    //process the random file for the word cloud
+                    $.getJSON( '_data/' + json[rand], function (json) {
+                      
+                        var fill = d3.scale.category20();  
+                        d3.layout.cloud().size([600, 500])
+                            .words(json)
+                            .padding(5)
+                            .rotate( function () { return 0; } )
+                            .font("Impact")
+                            .fontSize( function (d) { 
+                                if ( d.size/8 < 18 ) {
+                                    return 18;
+                                } 
+                                else if ( d.size/8 > 45 ) {
+                                    return 45
+                                } 
+                                else {
+                                    return d.size/8
+                                }
                             } )
-                            .text( function (d) { return d.text; } );
-                    }
-                    //the plan is to highlight hints that helped others get the answer
-                    $( "text" ).click( function (t) {
-                        $( this ).attr('class','important')
-                    });
+                            .on("end", draw)
+                            .start();
 
+                        function draw(words) {
+                            d3.select("#cloud-container").append("svg").attr("id","cloud-svg")
+                                .attr("width", 600)
+                                .attr("height", 500)
+                                .append("g").attr("transform", "translate(300,250)")
+                                .selectAll("text")
+                                .data(words)
+                                .enter().append("text")
+                                .style("font-size", function (d) { return d.size + "px"; } )
+                                //.style("font-family", "Impact")
+                                .style("fill", function (d, i) { return fill(i); } )
+                                .attr("text-anchor", "middle")
+                                .attr("transform", function (d) {
+                                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                                } )
+                                .text( function (d) { return d.text; } );
+                        }
+                        //the plan is to highlight hints that helped others get the answer
+                        $( "text" ).click( function (t) {
+                            $( this ).attr('class','important')
+                        });
+
+                    });
                 });
-            })
+            }
+
+            $(document).ready( function(){
+                // on load:
+                createCloud();
+            });
+
+            
+
+            
 
         </script>
     </body>
