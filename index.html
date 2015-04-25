@@ -32,7 +32,13 @@
               .rotate(function() { return 0; })
               .font("Impact")
               .fontSize(function(d) { 
-                return 24;
+                if (d.size/8 < 18) {
+                  return 18;
+                } else if (d.size/8 > 45) {
+                  return 45
+                } else {
+                  return d.size/8
+                }
               })
               .on("end", draw)
               .start();
@@ -46,7 +52,7 @@
               .selectAll("text")
                 .data(words)
               .enter().append("text")
-                .style("font-size", function(d) { return 25 + "px"; })
+                .style("font-size", function(d) { return d.size + "px"; })
                 .style("font-family", "Impact")
                 .style("fill", function(d, i) { return fill(i); })
                 .attr("text-anchor", "middle")
