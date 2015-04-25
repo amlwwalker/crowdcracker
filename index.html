@@ -7,6 +7,13 @@
 <script src="d3.js"></script>
 <script src="d3.cloud.js"></script>
 <script src="jquery.js"></script>
+<style>
+  .important {
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  }  
+  text { cursor: pointer; cursor: hand; }
+</style>
+
 <script>
   //get the array of hintfile names
   $.getJSON("hintFiles.json", function(json) {
@@ -14,8 +21,7 @@
     var rand = Math.random();
     rand *= json.length;
     rand = Math.floor(rand);
-    //use the random number to get an entry from the array
-    console.log(json[rand])
+    //use the random number to get an entry from the array and
     //process the random file for the word cloud
          $.getJSON(json[rand], function(json) {
           var fill = d3.scale.category20();  
@@ -54,6 +60,11 @@
                 })
                 .text(function(d) { return d.text; });
           }
+          //the plan is to highlight hints that helped others get the answer
+          $( "text" ).click(function(t) {
+            $( this ).attr('class','important')
+          });
+
       });
   })
 
