@@ -46,7 +46,7 @@ if __name__ == "__main__":
 		""")
 		ans=raw_input("What would you like to do?")
 		if ans=="1": 
-			print("\Extracting knowns...\n\n")
+			print("\nExtracting knowns...\n\n")
 			handleKnown() 
 		elif ans=="2":
 			print("\nExtracting unknowns...\n\n")
