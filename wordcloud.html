@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+<script src="d3.js"></script>
+<script src="d3.cloud.js"></script>
+<script src="jquery.js"></script>
+<script>
+  //get the array of hintfile names
+  $.getJSON("hintFiles.json", function(json) {
+    //create a random number
+    var rand = Math.random();
+    rand *= json.length;
+    rand = Math.floor(rand);
+    //use the random number to get an entry from the array
+    console.log(json[rand])
+    //process the random file for the word cloud
+         $.getJSON(json[rand], function(json) {
+          var fill = d3.scale.category20();  
+          d3.layout.cloud().size([800, 800])
+              .words(json)
+              .padding(5)
+              .rotate(function() { return 0; })
+              .font("Impact")
+              .fontSize(function(d) { 
+                if (d.size/8 < 18) {
+                  return 18;
+                } else if (d.size/8 > 45) {
+                  return 45
+                } else {
+                  return d.size/8
+                }
+              })
+              .on("end", draw)
+              .start();
+
+          function draw(words) {
+            d3.select("body").append("svg")
+                .attr("width", 800)
+                .attr("height", 800)
+              .append("g")
+                .attr("transform", "translate(300,300)")
+              .selectAll("text")
+                .data(words)
+              .enter().append("text")
+                .style("font-size", function(d) { return d.size + "px"; })
+                .style("font-family", "Impact")
+                .style("fill", function(d, i) { return fill(i); })
+                .attr("text-anchor", "middle")
+                .attr("transform", function(d) {
+                  return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                })
+                .text(function(d) { return d.text; });
+          }
+      });
+  })
+
+</script>
+</body>
+</html>
