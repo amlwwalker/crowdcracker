@@ -1,74 +1,156 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<script src="d3.js"></script>
-<script src="d3.cloud.js"></script>
-<script src="jquery.js"></script>
-</head>
-<body>
+    <head>
+        
+        <meta charset="utf-8">
+        <script src="_js/d3.js"></script>
+        <script src="_js/d3.cloud.js"></script>
+        <script src="_js/jquery.js"></script>
 
-<style>
-  .important {
-      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  }  
-  text { cursor: pointer; cursor: hand; }
-</style>
+        <link href='http://fonts.googleapis.com/css?family=Hind:400,300,700,600,500' rel='stylesheet' type='text/css'>
 
-<script>
-  //get the array of hintfile names
-  $.getJSON("hintFiles.json", function(json) {
-    //create a random number
-    var rand = Math.random();
-    rand *= json.length;
-    rand = Math.floor(rand);
-    //use the random number to get an entry from the array and
-    //process the random file for the word cloud
-         $.getJSON(json[rand], function(json) {
-          var fill = d3.scale.category20();  
-          d3.layout.cloud().size([800, 800])
-              .words(json)
-              .padding(5)
-              .rotate(function() { return 0; })
-              .font("Impact")
-              .fontSize(function(d) { 
-                if (d.size/8 < 18) {
-                  return 18;
-                } else if (d.size/8 > 45) {
-                  return 45
-                } else {
-                  return d.size/8
+        <style>
+            * {
+                margin: 0; padding: 0;
+            }
+            html, body {
+                font-family: 'Hind', sans-serif;
+                font-size: 16px;
+                line-height: 1em;
+                font-weight: 300;
+            }
+            #container {
+                width: 640px;
+                margin: 50px auto;
+                border: 1px solid #bbb;
+                border-radius: 5px;
+                box-shadow: 0px 2px 8px #ccc;
+                background: #f7f7f7;
+            }
+            #cloud-container {
+                padding:20px;
+            }
+            #cloud-svg {
+                
+            }
+            .input-container {
+                padding: 10px 20px;
+            }
+            .input-box, .input-button {
+                display: block;
+                box-sizing: border-box;
+                width: 250px;
+                border: 2px solid #ddd;
+                margin: 0px auto;
+                padding: 10px;
+                background: white;
+                font-size: 1em; 
+                color: steelblue;
+            }
+            .input-box {
+                border-radius: 3px 3px 0px 0px;
+                border-bottom: 0px;
+            }
+            .input-button {
+                appearance: none;
+                background: #f7f7f7;
+                color: steelblue;
+                font-weight: 700;
+                border-radius: 0px 0px 3px 3px;
+            }
+            .important {
+                text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            }  
+            text { 
+                font-family: 'Hind', sans-serif;
+                font-weight: 600;
+                cursor: pointer; 
+                cursor: hand; 
+            }
+        </style>
+
+    </head>
+    <body>
+
+        <div id="container">
+            <div id="cloud-container"></div>
+            <div class="input-container">
+                <input type="text" class="input-box" placeholder="Submit your answer" />
+                <button onClick="checkAnswer();" class="input-button">CHECK</button>
+            </div>
+        </div>
+
+        <script>
+            var answer = '';
+
+            function checkAnswer () {
+                var attempt = $('input.input-box').val();
+                if ( answer == attempt ) {
+                    alert('Correct');
                 }
-              })
-              .on("end", draw)
-              .start();
+                else {
+                    alert('Incorrect');
+                }
+            }
 
-          function draw(words) {
-            d3.select("body").append("svg")
-                .attr("width", 800)
-                .attr("height", 800)
-              .append("g")
-                .attr("transform", "translate(300,300)")
-              .selectAll("text")
-                .data(words)
-              .enter().append("text")
-                .style("font-size", function(d) { return d.size + "px"; })
-                .style("font-family", "Impact")
-                .style("fill", function(d, i) { return fill(i); })
-                .attr("text-anchor", "middle")
-                .attr("transform", function(d) {
-                  return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-                })
-                .text(function(d) { return d.text; });
-          }
-          //the plan is to highlight hints that helped others get the answer
-          $( "text" ).click(function(t) {
-            $( this ).attr('class','important')
-          });
+            //get the array of hintfile names
+            $.getJSON("_data/hintFiles.json", function (json) {
+                //create a random number
+                var rand = Math.random();
+                rand *= json.length;
+                rand = Math.floor(rand);
 
-      });
-  })
+                answer = json[rand].replace('.hints','').replace('knownHints/','');
 
-</script>
-</body>
+                //use the random number to get an entry from the array and
+                //process the random file for the word cloud
+                $.getJSON( '_data/' + json[rand], function (json) {
+                  
+                    var fill = d3.scale.category20();  
+                    d3.layout.cloud().size([600, 500])
+                        .words(json)
+                        .padding(5)
+                        .rotate( function () { return 0; } )
+                        .font("Impact")
+                        .fontSize( function (d) { 
+                            if ( d.size/8 < 18 ) {
+                                return 18;
+                            } 
+                            else if ( d.size/8 > 45 ) {
+                                return 45
+                            } 
+                            else {
+                                return d.size/8
+                            }
+                        } )
+                        .on("end", draw)
+                        .start();
+
+                    function draw(words) {
+                        d3.select("#cloud-container").append("svg").attr("id","cloud-svg")
+                            .attr("width", 600)
+                            .attr("height", 500)
+                            .append("g").attr("transform", "translate(300,250)")
+                            .selectAll("text")
+                            .data(words)
+                            .enter().append("text")
+                            .style("font-size", function (d) { return d.size + "px"; } )
+                            //.style("font-family", "Impact")
+                            .style("fill", function (d, i) { return fill(i); } )
+                            .attr("text-anchor", "middle")
+                            .attr("transform", function (d) {
+                                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                            } )
+                            .text( function (d) { return d.text; } );
+                    }
+                    //the plan is to highlight hints that helped others get the answer
+                    $( "text" ).click( function (t) {
+                        $( this ).attr('class','important')
+                    });
+
+                });
+            })
+
+        </script>
+    </body>
 </html>
