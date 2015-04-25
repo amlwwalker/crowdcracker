@@ -99,6 +99,7 @@
                 var attempt = $('input.input-box').val();
                 if ( answer == attempt ) {
                     alert('Correct');
+                    $('input.input-box').val('');
                     $('#cloud-container').html('');
                     createCloud();
                 }
