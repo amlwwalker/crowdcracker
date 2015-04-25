@@ -2,7 +2,7 @@
 ## Layout of how this works:
 
 * the file `sampleKnownPasswords` is the file that is read to find all matching hints for a specific password
-* `extractPasswords.py` is then run. Choose '1' at the menu to extract all known password hints.
+* `extractPasswords.py` is then run. Choose `1` at the menu to extract all known password hints.
 	* It will extract them all into files named `[password].pass` and put them in the directory `knownPasswords`
 * `postprocess.py` is then run. It will go through all of the files in `knownPasswords` counting the occurances of hints and adding them to json. 
 	* Currently hardcoded to add any hint with more than `20` occurances to the json.
