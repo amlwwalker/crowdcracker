@@ -32,7 +32,7 @@ def postProcessHints(filename, jsonData):
 	    for line in infile:
 	        handleLine(line)
 	for h in hints:
-		if hints[h] > 50:
+		if hints[h] > 20:
 			result.append({"text":h,"size":hints[h]})
 	print "saving to: " + "knownHints/"+saveTo+".hints"
 	saveTo = "knownHints/"+saveTo+".hints"
