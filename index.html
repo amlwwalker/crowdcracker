@@ -7,76 +7,17 @@
         <script src="_js/d3.cloud.js"></script>
         <script src="_js/jquery.js"></script>
 
+        <!-- Materialize -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+
+        <!-- Google Fonts -->
         <link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
         <link href='//fonts.googleapis.com/css?family=Hind:400,300,700,600,500' rel='stylesheet' type='text/css'>
-
+        <link rel="stylesheet" type="text/css" href="_css/design.css">
         <style>
-            * {
-                margin: 0; padding: 0;
-            }
-            html, body {
-                font-family: 'Hind', sans-serif;
-                font-size: 16px;
-                line-height: 1em;
-                font-weight: 300;
-            }
-            #container {
-                width: 620px;
-                margin: 15px auto;
-                border: 1px solid #bbb;
-                border-radius: 5px;
-                box-shadow: 0px 2px 8px #ccc;
-                background: #f7f7f7;
-            }
-            #logo{
-                padding: 15px;
-                background: #ccc;
-                text-align: center;
-                font-size: 1.25em;
-                font-weight: 600;
-                font-family: 'Montserrat', sans-serif;
-                text-shadow: 0px 1px 2px #aaa;
-            }
-            #cloud-container {
-                padding:10px;
-            }
-            #cloud-svg {
-                
-            }
-            .input-container {
-                padding: 10px 20px;
-            }
-            .input-box, .input-button {
-                display: block;
-                box-sizing: border-box;
-                width: 250px;
-                border: 2px solid #ddd;
-                margin: 0px auto;
-                padding: 10px;
-                background: white;
-                font-size: 1em; 
-                color: steelblue;
-            }
-            .input-box {
-                text-align: center;
-                border-radius: 3px 3px 0px 0px;
-                border-bottom: 0px;
-            }
-            .input-button {
-                appearance: none;
-                background: #f7f7f7;
-                color: steelblue;
-                font-weight: 700;
-                border-radius: 0px 0px 3px 3px;
-            }
-            .important {
-                text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-            }  
-            text { 
-                font-family: 'Hind', sans-serif;
-                font-weight: 600;
-                cursor: pointer; 
-                cursor: hand; 
+            .mdi-action-grade.small {
+                /*margin: 0px 5px;*/
             }
         </style>
 
@@ -84,9 +25,25 @@
     <body>
 
         <div id="container">
-            <div id="logo">GO|OG</div>
-            <div id="cloud-container"></div>
-            <div class="input-container">
+            <div id="logo">
+                <div style="float:left;">GO|OG</div>
+                <div style="float:right;" id="stars-container">
+                    <i class="mdi-action-grade small" style="color:grey;"></i>
+                    <i class="mdi-action-grade small" style="color:grey;"></i>
+                    <i class="mdi-action-grade small" style="color:grey;"></i>
+                    <i class="mdi-action-grade small" style="color:grey;"></i>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+            <div id="cloud-container">
+                <div style="width:100%; text-align:center; padding:100px 0px;">
+                    Guess the password for each of the hints.
+                </div>
+                <div>
+                    <button onClick="getStarted();" class="input-button">START</button>
+                </div>
+            </div>
+            <div class="input-container" style="display:none;">
                 <input type="text" class="input-box" placeholder="Submit your answer" />
                 <button onClick="checkAnswer();" class="input-button">CHECK</button>
             </div>
@@ -94,17 +51,37 @@
 
         <script>
             var answer = '';
+            var score = 0,
+                attempts = 0;
+
+            function getStarted () {
+                $('#cloud-container').html('');
+                $('.input-container').show();
+                createCloud();
+            }
 
             function checkAnswer () {
                 var attempt = $('input.input-box').val();
                 if ( answer == attempt ) {
                     alert('Correct');
+                    // Update score and stars.
+                    attempts = 0;
+                    score += 1;
+                    $('#stars-container').html('');
+                    for ( var i=0; i<score; i++ ) {
+                        $('#stars-container').append('<i class="mdi-action-grade small" style="color:limegreen;"></i>');
+                    }
+                    for ( var i=score; i<4; i++ ) {
+                        $('#stars-container').append('<i class="mdi-action-grade small" style="color:grey;"></i>');
+                    }
+                    // Clean the input box and container.
                     $('input.input-box').val('');
                     $('#cloud-container').html('');
                     createCloud();
                 }
                 else {
-                    alert('Incorrect, try again');
+                    attempts += 1;
+                    alert('Incorrect, try again. You have tried ' + attempts + ' times now.' );
                 }
             }
 
@@ -170,7 +147,6 @@
 
             $(document).ready( function(){
                 // on load:
-                createCloud();
             });
 
             

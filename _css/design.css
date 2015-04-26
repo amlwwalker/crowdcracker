@@ -1,0 +1,68 @@
+* {
+    margin: 0; padding: 0;
+}
+html, body {
+    font-family: 'Hind', sans-serif;
+    font-size: 16px;
+    line-height: 1em;
+    font-weight: 300;
+}
+#container {
+    width: 620px;
+    min-height: 620px;
+    margin: 15px auto;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    box-shadow: 0px 2px 8px #bbb;
+    background: #f7f7f7;
+}
+#logo{
+    padding: 15px;
+    background: #ccc;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: 0px 1px 2px #aaa;
+}
+#cloud-container {
+    padding:10px;
+}
+#cloud-svg {
+    
+}
+.input-container {
+    padding: 10px 20px;
+}
+.input-box, .input-button {
+    display: block;
+    box-sizing: border-box;
+    width: 250px;
+    border: 2px solid #ddd;
+    margin: 0px auto;
+    padding: 10px;
+    background: white;
+    font-size: 1em; 
+    color: steelblue;
+}
+.input-box {
+    text-align: center;
+    border-radius: 3px 3px 0px 0px;
+    border-bottom: 0px;
+}
+.input-button {
+    appearance: none;
+    background: #f7f7f7;
+    color: steelblue;
+    font-weight: 700;
+    border-radius: 0px 0px 3px 3px;
+}
+.important {
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}  
+text { 
+    font-family: 'Hind', sans-serif;
+    font-weight: 600;
+    cursor: pointer; 
+    cursor: hand; 
+}
