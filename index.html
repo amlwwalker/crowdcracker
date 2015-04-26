@@ -16,9 +16,7 @@
         <link href='//fonts.googleapis.com/css?family=Hind:400,300,700,600,500' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="_css/design.css">
         <style>
-            .mdi-action-grade.small {
-                /*margin: 0px 5px;*/
-            }
+            
         </style>
 
     </head>
@@ -28,10 +26,10 @@
             <div id="logo">
                 <div style="float:left;">GO|OG</div>
                 <div style="float:right;" id="stars-container">
-                    <i class="mdi-action-grade small" style="color:grey;"></i>
-                    <i class="mdi-action-grade small" style="color:grey;"></i>
-                    <i class="mdi-action-grade small" style="color:grey;"></i>
-                    <i class="mdi-action-grade small" style="color:grey;"></i>
+                    <i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>
+                    <i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>
+                    <i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>
+                    <i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>
                 </div>
                 <div style="clear:both;"></div>
             </div>
@@ -72,7 +70,7 @@
                         $('#stars-container').append('<i class="mdi-action-grade small" style="color:limegreen;"></i>');
                     }
                     for ( var i=score; i<4; i++ ) {
-                        $('#stars-container').append('<i class="mdi-action-grade small" style="color:grey;"></i>');
+                        $('#stars-container').append('<i class="mdi-action-grade small" style="color:steelblue;opacity:0.5;"></i>');
                     }
                     // Clean the input box and container.
                     $('input.input-box').val('');
@@ -86,6 +84,10 @@
             }
 
             function createCloud () {
+                
+                var width = 600,
+                    height = 400;
+
                 //get the array of hintfile names
                 $.getJSON("_data/hintFiles.json", function (json) {
                     //create a random number
@@ -100,7 +102,7 @@
                     $.getJSON( '_data/' + json[rand], function (json) {
                       
                         var fill = d3.scale.category20();  
-                        d3.layout.cloud().size([600, 500])
+                        d3.layout.cloud().size([width, height])
                             .words(json)
                             .padding(5)
                             .rotate( function () { return 0; } )
@@ -121,8 +123,8 @@
 
                         function draw(words) {
                             d3.select("#cloud-container").append("svg").attr("id","cloud-svg")
-                                .attr("width", 600)
-                                .attr("height", 500)
+                                .attr("width", width)
+                                .attr("height", height)
                                 .append("g").attr("transform", "translate(300,250)")
                                 .selectAll("text")
                                 .data(words)
