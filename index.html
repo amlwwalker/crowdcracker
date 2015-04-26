@@ -54,8 +54,8 @@
                 </div>
             </div>
             <div class="input-container" style="display:none;">
-                <input type="text" class="input-box" placeholder="Submit your answer" />
-                <button onClick="checkAnswer();" class="input-button">CHECK</button>
+                <input type="text" id="input-box" class="input-box" placeholder="Submit your answer" />
+                <button onClick="checkAnswer();" onmouseout="giveFocus();" class="input-button">CHECK</button>
             </div>
         </div>
 
@@ -65,11 +65,27 @@
                 attempts = 0;
 
             function getStarted () {
+
+                //bind a trigger to the input box
+                $('#input-box').bind("enterKey",function(e){
+                   checkAnswer()
+                });
+                //call the trigger on ENTER pressed in text box
+                $('#input-box').keyup(function(e){
+                    if(e.keyCode == 13)
+                    {
+                        $(this).trigger("enterKey");
+                    }
+                });
+
                 $('#cloud-container').html('');
                 $('.input-container').show();
                 createCloud();
+                giveFocus();
             }
-
+            function giveFocus() {
+              $(".input-box").focus();
+            }
             function checkAnswer () {
                 var attempt = $('input.input-box').val();
                 if ( answer == attempt ) {
@@ -160,12 +176,12 @@
             }
 
             $(document).ready( function(){
-                // on load:
+                
             });
 
             
 
-            
+              
 
         </script>
     </body>

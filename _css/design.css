@@ -33,6 +33,7 @@ html, body {
 }
 .input-container {
     padding: 10px 20px;
+    outline: 0;
 }
 .input-box, .input-button, .input-button:active, .input-button:visited {
     display: block;
@@ -70,4 +71,17 @@ text {
     font-weight: 600;
     cursor: pointer; 
     cursor: hand; 
+}
+/*
+in materialize there is a silly greenish colour, this overrides it, then the js handles giving
+focus back to the input box
+materialize:
+button:focus {
+  outline: none;
+  background-color: #2ab7a9; }
+*/
+button:focus {
+  outline: none;
+  background-color: steelblue; 
+  color: white;
 }
