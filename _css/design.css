@@ -34,7 +34,7 @@ html, body {
 .input-container {
     padding: 10px 20px;
 }
-.input-box, .input-button {
+.input-box, .input-button, .input-button:active, .input-button:visited {
     display: block;
     box-sizing: border-box;
     width: 250px;
@@ -50,7 +50,7 @@ html, body {
     border-radius: 3px 3px 0px 0px;
     border-bottom: 0px;
 }
-.input-button {
+.input-button, .input-button:active, .input-button:visited {
     appearance: none;
     background: #f7f7f7;
     color: steelblue;
