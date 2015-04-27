@@ -26,22 +26,25 @@ def handleLine(line):
 
 def postProcessHints(hintFile, filename, saveAt, limit):
 	global hints
-	with open(hintFile + '.json') as data_file:    
-		jsonData = json.load(data_file)	
+
 	hints = {}
 	result = []
 	with open(saveAt + "Passwords/" + filename) as infile:
 	    for line in infile:
 	        handleLine(line)
+	if len(hints) < 10:
+		return
 	for h in hints:
 		if hints[h] > limit:
 			result.append({"text":h,"size":hints[h]})
-	print "saving to: " + saveAt + "Hints/" + filename.split(".")[0] + ".hints"
-	filename = saveAt + "Hints/" + filename.split(".")[0]+".hints"
+	with open("_data/" + hintFile + '.json') as data_file:    
+		jsonData = json.load(data_file)		
+	print "saving to: _data/" + saveAt + "Hints/" + filename.split(".")[0] + ".hints"
+	filename = "_data/" + saveAt + "Hints/" + filename.split(".")[0]+".hints"
 	with open(filename, 'w+') as outfile:
 		json.dump(result, outfile)
 	jsonData.append(filename)
-	with open(hintFile + '.json', 'w') as outfile:
+	with open("_data/" + hintFile + '.json', 'w') as outfile:
 		json.dump(jsonData, outfile)
 
 #main
@@ -57,7 +60,7 @@ if __name__ == "__main__":
 		if ans=="1": 
 			print("\Processing knowns...\n\n")
 			#handle known paswords
-			with open('knownHintFiles.json', 'w') as outfile:
+			with open('_data/knownHintFiles.json', 'w') as outfile:
 				json.dump(json.loads("[]"), outfile)
 			if len(sys.argv) < 2:
 				print "processing all known password files"
@@ -69,7 +72,7 @@ if __name__ == "__main__":
 		elif ans=="2":
 			print("\Process unknowns...\n\n")
 			#handle known paswords
-			with open('unknownHintFiles.json', 'w') as outfile:
+			with open('_data/unknownHintFiles.json', 'w') as outfile:
 				json.dump(json.loads("[]"), outfile)
 			if len(sys.argv) < 2:
 				print "processing all unknown password files"

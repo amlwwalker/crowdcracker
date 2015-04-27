@@ -117,7 +117,7 @@
                     height = 400;
 
                 //get the array of hintfile names
-                $.getJSON("_data/hintFiles.json", function (json) {
+                $.getJSON("_data/unknownHintFiles.json", function (json) {
                     //create a random number
                     var rand = Math.random();
                     rand *= json.length;
@@ -127,7 +127,7 @@
 
                     //use the random number to get an entry from the array and
                     //process the random file for the word cloud
-                    $.getJSON( '_data/' + json[rand], function (json) {
+                    $.getJSON( json[rand], function (json) {
                       
                         var fill = d3.scale.category20();  
                         d3.layout.cloud().size([width, height])
