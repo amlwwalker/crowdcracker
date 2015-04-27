@@ -19,15 +19,33 @@ def grep(ciphertext, plaintext):
 		    if ciphertext in line:
 	        	lines.append(line)
 	fo.writelines( lines )
-
+#the below will handle all unknowns. Need to make it handle a specific few
 def handleUnknown():
-	with open("rawAdobeData") as infile:
+	with open("testRawData") as infile:
 		for line in infile:	
+			lineCounter = 0
 			split = line.split('-|-')
-			if len(split) >5:
+			if len(split) >=5:
 				cipher = split[3]
-				cipher = cipher.replace("/", "")
-				with open("unknownPasswords/"+cipher+".pass",'w+') as f: f.write(line)
+				print ". " + cipher
+				canWrite = True
+				with open("knownpasswords") as checkKnowns:
+					for p in checkKnowns:
+						split = p.split(' ')
+						if cipher in split[0]:
+							canWrite = False
+							break
+				#its not a known password:
+				if canWrite:
+					#need to start looking for it in the raw data file
+					#currently the rawAdobeData file is not the same file as the passwords to hunt for
+					with open("rawAdobeData") as rawData:
+						for r in rawData:
+							if cipher in r: #the cipher is in the line:
+								lineCounter += 1
+								cipher = cipher.replace("/", "")
+								with open("unknownPasswords/"+cipher+".pass",'a+') as f: f.write(r)
+				print "		----	Found " + str(lineCounter) + " matches"
 
 def handleKnown():
 	with open("sampleKnownPasswords") as infile:
