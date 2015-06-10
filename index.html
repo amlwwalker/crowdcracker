@@ -123,8 +123,8 @@
                     rand *= json.length;
                     rand = Math.floor(rand);
 
-                    answer = json[rand].replace('.hints','').replace('knownHints/','');
-
+                    var answerSplit = json[rand].replace('.hints','').split('/');
+                    answer = answerSplit[answerSplit.length - 1]
                     //use the random number to get an entry from the array and
                     //process the random file for the word cloud
                     $.getJSON( json[rand], function (json) {
