@@ -118,7 +118,14 @@
                     // Clean the input box and container.
                     $('input.input-box').val('');
                     $('#cloud-container').html('');
+                    
+
+                    //get the array of hintfile names
+                    $.getJSON("App/CrowdCracker?Question="+answer+"&answer="+attempt, function (json) {
+                        console.log("done")
+                    });
                     alert("Good attempt!");
+
                     playGame();
                 }
                 
@@ -171,7 +178,6 @@
 
                     var answerSplit = json[rand].replace('.hints','').split('/');
                     answer = answerSplit[answerSplit.length - 1]
-                    console.log("answer: ", answer)
                     //use the random number to get an entry from the array and
                     //process the random file for the word cloud
                     $.getJSON( json[rand], function (json) {
