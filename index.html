@@ -63,6 +63,7 @@
             var answer = '';
             var score = 0,
                 attempts = 0;
+            var counter = 0;
 
             function getStarted () {
 
@@ -80,7 +81,7 @@
 
                 $('#cloud-container').html('');
                 $('.input-container').show();
-                createCloud();
+                playGame();
                 giveFocus();
             }
             function giveFocus() {
@@ -88,43 +89,89 @@
             }
             function checkAnswer () {
                 var attempt = $('input.input-box').val();
-                if ( answer == attempt ) {
-                    alert('Correct');
-                    // Update score and stars.
-                    attempts = 0;
-                    score += 1;
-                    $('#stars-container').html('');
-                    for ( var i=0; i<score; i++ ) {
-                        $('#stars-container').append('<i class="mdi-action-grade small" style="color:steelblue;"></i>');
+                console.log(counter)
+                if ( counter <= 3 ) {
+                    //these are ones we know the answer to
+                    if ( answer == attempt ) {
+                        alert('Correct');
+                        // Update score and stars.
+                        attempts = 0;
+                        score += 1;
+                        $('#stars-container').html('');
+                        for ( var i=0; i<score; i++ ) {
+                            $('#stars-container').append('<i class="mdi-action-grade small" style="color:steelblue;"></i>');
+                        }
+                        for ( var i=score; i<4; i++ ) {
+                            $('#stars-container').append('<i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>');
+                        }
+                        // Clean the input box and container.
+                        $('input.input-box').val('');
+                        $('#cloud-container').html('');
+                        playGame();
                     }
-                    for ( var i=score; i<4; i++ ) {
-                        $('#stars-container').append('<i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>');
+                    else {
+                        attempts += 1;
+                        alert('Incorrect, try again. You have tried ' + attempts + ' times now.' );
                     }
+
+                } else {
                     // Clean the input box and container.
                     $('input.input-box').val('');
                     $('#cloud-container').html('');
-                    createCloud();
+                    alert("Good attempt!");
+                    playGame();
                 }
-                else {
-                    attempts += 1;
-                    alert('Incorrect, try again. You have tried ' + attempts + ' times now.' );
+                
+            }
+
+            
+
+            function playGame() {
+                /*
+                    This needs to show three known clouds, followed by 2 unknown clouds
+
+                */
+                console.log(counter)
+                if (counter <= 3) {
+                    counter++
+                    createKnownCloud()
+                } else if (counter > 3) {
+                    counter++
+                    createUnknownCloud()
+                } else if (counter > 5) {
+                    counter = 0;
                 }
             }
 
-            function createCloud () {
-                
-                var width = 600,
-                    height = 400;
+
+            function createUnknownCloud () {
 
                 //get the array of hintfile names
+                $.getJSON("_data/unknownHintFiles.json", function (json) {
+                    createCloud(json) 
+                });
+            }
+
+            function createKnownCloud () {
+  
+                //get the array of hintfile names
                 $.getJSON("_data/knownHintFiles.json", function (json) {
-                    //create a random number
+                    createCloud(json) 
+                });
+            }
+
+            function createCloud(json) {
+
+                    var width = 600,
+                    height = 400;
+                //create a random number
                     var rand = Math.random();
                     rand *= json.length;
                     rand = Math.floor(rand);
 
                     var answerSplit = json[rand].replace('.hints','').split('/');
                     answer = answerSplit[answerSplit.length - 1]
+                    console.log("answer: ", answer)
                     //use the random number to get an entry from the array and
                     //process the random file for the word cloud
                     $.getJSON( json[rand], function (json) {
@@ -172,9 +219,7 @@
                         });
 
                     });
-                });
             }
-
             $(document).ready( function(){
                 
             });
