@@ -21,7 +21,7 @@ def grep(ciphertext, plaintext):
 	fo.writelines( lines )
 #the below will handle all unknowns. Need to make it handle a specific few
 def handleUnknown():
-	with open("testRawData") as infile:
+	with open("rawAdobeData") as infile: #if you just want to test, swap for testRawData
 		for line in infile:	
 			lineCounter = 0
 			split = line.split('-|-')
@@ -48,7 +48,7 @@ def handleUnknown():
 				print "		----	Found " + str(lineCounter) + " matches"
 
 def handleKnown():
-	with open("sampleKnownPasswords") as infile:
+	with open("knownPasswords") as infile: #if you just want to test, swap for sampleKnownPasswords
 	    for line in infile:
 	    	print ".",
 	    	split = line.split(' ')

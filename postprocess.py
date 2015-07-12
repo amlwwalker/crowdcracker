@@ -32,8 +32,9 @@ def postProcessHints(hintFile, filename, saveAt, limit):
 	with open(saveAt + "Passwords/" + filename) as infile:
 	    for line in infile:
 	        handleLine(line)
-	if len(hints) < 10:
-		return
+	#will output all hints now, even if there is just one....
+	# if len(hints) < 10:
+	# 	return
 	for h in hints:
 		if hints[h] > limit:
 			result.append({"text":h,"size":hints[h]})
