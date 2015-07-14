@@ -139,7 +139,7 @@ function getStarted () {
             if ( counter <= knownLimit ) {
                     //these are ones we know the answer to
                     if ( answer == attempt ) {
-                        alert('Yes! Well done!');
+                        alert('Correct!');
                         // Update score and stars.
                         attempts = 0;
                         score += 1;
@@ -174,7 +174,7 @@ function getStarted () {
                     }
                     else {
                         attempts += 1;
-                        alert('Nope, this is one we do know. The easy ones are to help you train for the harder passwords' );
+                        alert('Incorrect, try again. You have tried ' + attempts + ' times now.' );
                     }
 
                 } else {
