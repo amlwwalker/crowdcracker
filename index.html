@@ -15,6 +15,7 @@
     <link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Hind:400,300,700,600,500' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="_css/design.css">
+    <link rel="stylesheet" type="text/css" href="_css/clearfix.css">
     <style>
 
     </style>
@@ -31,7 +32,7 @@
       fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
     </script>
-    <div id="container">
+    <div class="cf" id="container">
         <div id="logo">
             <div style="float:left;">GO|OG</div>
             <div style="float:left;margin-left: 20px;" id="difficulty"></div>
@@ -41,14 +42,15 @@
         </div>
         <div id="cloud-container">
             <div style="width:100%; text-align:center; padding:75px 0px 0px 0px;">
-                <h5>Password cracking using the wisdom of crowds</h5>
-                In 2013 Adobe was hacked and the passwords of millions of accounts stolen. Along with their hints. Each password was encrypted but we can still see who uses the same password. By looking at the password hints, you can work out the passwords. If we put our brains together we can crack them all! When I have enough data, I will release it and together we can work out the passwords.<p><p>Inspired by <a href="http://zed0.co.uk/crossword/" target="_blank">this crossword</a> and Troy Hunt's <a href="https://haveibeenpwned.com/" target="_blank">HaveIBeenPwned</a>
-                <h5>Guess the password for the given hints.</h5>
+                <h5>Gamifying Password Hacking</h5>
+                Inspired by <a href="http://zed0.co.uk/crossword/" target="_blank">this crossword</a> and Troy Hunt's <a href="https://haveibeenpwned.com/" target="_blank">HaveIBeenPwned</a><p><br>
+                In October 2013 <a href="http://www.theguardian.com/technology/2013/nov/07/adobe-password-leak-can-check">Adobe was hacked</a> and the passwords of millions of accounts stolen. But because the passwords were encrypted, they haven't yet been cracked. However, you can still work out the most common passwords —  just by looking at the hints. Can you work out what the passwords are?
             </div>
             <div>
                 <div class="instructions" style="text-align:center;">
                  <ul>
-                  <li><h6>You will be shown some words</h6></li>
+                    <li><h5>Instructions</h5></li>
+                  <li>You will be shown a word cloud of words</li>
                   <li>Together, these words are the hints as to what the password might be</li>
                   <li>Using all the information, try and get as many right as possible</li>
                   <li>At the top are your stars. You get a star for each one you get right</li>
@@ -84,10 +86,17 @@
     <input type="text" id="input-box" class="input-box" placeholder="Submit your answer" />
     <button onClick="checkAnswer();" onmouseout="giveFocus();" class="input-button">CHECK</button>
 </div>
-<div style="text-align:center;"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://crowdcracker.golog.co" data-text="Password cracking is fun! Try it yourself!" data-via="_whitesilence" data-size="large" data-hashtags="golog">Tweet</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-</div>
-<div class="fb-like-container"><div class="fb-like" data-href="http://crowdcracker.golog.co" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div></div>
+
+    <div style="text-align:center;margin:0 auto;">
+        <ul>
+        <li>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://crowdcracker.golog.co" data-text="Password cracking is fun! Try it yourself!" data-via="_whitesilence" data-size="large" data-hashtags="golog">Tweet</a>
+         </li>
+         <li> 
+            <div style="padding: 10px;" class="fb-like-container"><div class="fb-like" data-href="http://crowdcracker.golog.co" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div></div>
+        </li>
+        </ul>
+    </div>
 
 </div>
 
@@ -130,7 +139,7 @@ function getStarted () {
             if ( counter <= knownLimit ) {
                     //these are ones we know the answer to
                     if ( answer == attempt ) {
-                        alert('Correct');
+                        alert('Yes! Well done!');
                         // Update score and stars.
                         attempts = 0;
                         score += 1;
@@ -165,7 +174,7 @@ function getStarted () {
                     }
                     else {
                         attempts += 1;
-                        alert('Incorrect, try again. You have tried ' + attempts + ' times now.' );
+                        alert('Nope, this is one we do know. The easy ones are to help you train for the harder passwords' );
                     }
 
                 } else {
@@ -173,7 +182,7 @@ function getStarted () {
                     $('input.input-box').val('');
                     $('#cloud-container').html('');
 
-                    alert("Good attempt!");
+                    alert("Thanks! We don’t yet know what the this password is, but if enough people try we can find out!");
 
                     playGame();
                     counter++
@@ -318,6 +327,9 @@ function getStarted () {
         ga('create', 'UA-59200850-2', 'auto');
         ga('send', 'pageview');
 
+        </script>
+        <!-- twitter scripting -->
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
         </script>
     </body>
     </html>
