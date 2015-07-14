@@ -73,13 +73,14 @@
         </div>              
     </div>
     <div id="completed" style="text-align:center;display:none;padding:75px 0px 20px 0px;">
-        <h5>Congratulations! You've helped crack passwords because of badly implemented security</h5>
+        <h5>Congratulations! You completed it!</h5>
         <ul>
-            <li>This isn't the first time this has happened, nor the last</li>
-            <li>Internet security is our problem</li>
-            <li>It's a problem that is here now</li>
-            <li>We cannot leave it up to others to keep us safe on the internet.</li>
-            <li>Alan Turing. One of the best code breakers to have existed:<p><img src="http://www.maths.manchester.ac.uk/cryptography_competition/css/ATY_large.png"></li>
+            <li>Soon we will release the data so we can see what everyone thinks. Follow us on Twitter for more information</li>
+            <li>This isn't the first time passwords and their hints have been leaked, will it be the last</li>
+            <li>Internet security is our problem - we cannot leave it up to others to keep us safe. We must be vigilant</li>
+            <li>Tweet that you completed this!</li>
+            <p><p>
+            <h6>This is Alan Turing he was one of the best code breakers to have existed, and doesn't get enough press</h6><img src="http://www.maths.manchester.ac.uk/cryptography_competition/css/ATY_large.png"></li>
         </ul>
     </div>
 <div id="checkanswers" class="input-container" style="display:none;">
@@ -90,11 +91,15 @@
     <div style="text-align:center;margin:0 auto;">
         <ul>
         <li>
-            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://crowdcracker.golog.co" data-text="Password cracking is fun! Try it yourself!" data-via="_whitesilence" data-size="large" data-hashtags="golog">Tweet</a>
+            <a href="https://twitter.com/share" id="twitterbutton" class="twitter-share-button" data-url="http://crowdcracker.golog.co" data-text="Password cracking is fun! Try it yourself!" data-via="_whitesilence" data-size="large" data-hashtags="golog">Tweet</a>
          </li>
+        <li>
+            <a href="https://twitter.com/_whitesilence" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false">Follow @_whitesilence</a>
+        </li>
          <li> 
             <div style="padding: 10px;" class="fb-like-container"><div class="fb-like" data-href="http://crowdcracker.golog.co" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div></div>
         </li>
+
         </ul>
     </div>
 
@@ -191,7 +196,9 @@ function getStarted () {
                 $.getJSON("https://golog.co/App/CrowdCracker?uuid="+uuid+"&question="+answer+"&answer="+attempt, function (json) {
                     console.log("done")
                 });
-            if (BigScore == 10 ) { //game completed!
+            // if (BigScore == 10 ) { //game completed!
+            if (true) { //game completed!
+                $("#twitterbutton").attr('data-text', 'I completed the password cracker from golog.co! Give it a go!');
                 $("#cloud-container").hide();
                 $("#completed").show();
                 $("#checkanswers").hide();
