@@ -1,79 +1,114 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        
-        <meta charset="utf-8">
-        <script src="_js/d3.js"></script>
-        <script src="_js/d3.cloud.js"></script>
-        <script src="_js/jquery.js"></script>
+<head>
 
-        <!-- Materialize -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+    <meta charset="utf-8">
+    <script src="_js/d3.js"></script>
+    <script src="_js/d3.cloud.js"></script>
+    <script src="_js/jquery.js"></script>
 
-        <!-- Google Fonts -->
-        <link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-        <link href='//fonts.googleapis.com/css?family=Hind:400,300,700,600,500' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" type="text/css" href="_css/design.css">
-        <style>
-            
-        </style>
+    <!-- Materialize -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
 
-    </head>
-    <body>
+    <!-- Google Fonts -->
+    <link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Hind:400,300,700,600,500' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="_css/design.css">
+    <style>
 
-        <div id="container">
-            <div id="logo">
-                <div style="float:left;">GO|OG</div>
-                <div style="float:left;margin-left: 20px;" id="difficulty"></div>
-                <div style="float:right;" id="stars-container">
-                   </div>
-                <div style="clear:both;"></div>
+    </style>
+
+</head>
+<body>
+    <div id="fb-root"></div>
+    <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4";
+      fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div id="container">
+        <div id="logo">
+            <div style="float:left;">GO|OG</div>
+            <div style="float:left;margin-left: 20px;" id="difficulty"></div>
+            <div style="float:right;" id="stars-container">
             </div>
-            <div id="cloud-container">
-                <div style="width:100%; text-align:center; padding:100px 0px;">
-                    <h5>Guess the password for each of the hints.</h5>
-                    <ul>
-                      <li><h6>You will be shown some words</h6></li>
-                      <li>Together, these words are the hints as to what the password might be</li>
-                      <li>Using all the information, try and get as many right as possible</li>
-                      <li>At the top are your stars. You get a star for each one you get right</li>
-                      <li>Four blue stars equal a red star!</li>
-                    </ul>
-                    <br>
-                    <h6>Tips:</h6>
-                    <ul>
-                    <li>The size of the hint represents the number of people who used that hint
-                        <ul><li>i.e the most useful hints are probably the smallest ones</li></ul>
-                    </li>
-                      <li>Often the hints are the password backwards</li>
-                      <li>They are sometimes just part of the password</li>
-                    <u/l>
-                </div>
-                <div>
-                    <button onClick="getStarted();" class="input-button">START</button>
-                </div>
+            <div style="clear:both;"></div>
+        </div>
+        <div id="cloud-container">
+            <div style="width:100%; text-align:center; padding:75px 0px 0px 0px;">
+                <h5>Password cracking using the wisdom of crowds</h5>
+                In 2013 Adobe was hacked and the passwords of millions of accounts stolen. Along with their hints. Each password was encrypted but we can still see who uses the same password. By looking at the password hints, you can work out the passwords. If we put our brains together we can crack them all! When I have enough data, I will release it and together we can work out the passwords.<p><p>Inspired by <a href="http://zed0.co.uk/crossword/" target="_blank">this crossword</a> and Troy Hunt's <a href="https://haveibeenpwned.com/" target="_blank">HaveIBeenPwned</a>
+                <h5>Guess the password for the given hints.</h5>
             </div>
-            <div class="input-container" style="display:none;">
-                <input type="text" id="input-box" class="input-box" placeholder="Submit your answer" />
-                <button onClick="checkAnswer();" onmouseout="giveFocus();" class="input-button">CHECK</button>
+            <div>
+                <div class="instructions" style="text-align:center;">
+                 <ul>
+                  <li><h6>You will be shown some words</h6></li>
+                  <li>Together, these words are the hints as to what the password might be</li>
+                  <li>Using all the information, try and get as many right as possible</li>
+                  <li>At the top are your stars. You get a star for each one you get right</li>
+                  <li>Four blue stars equal a red star!</li>
+              </ul>
+              <br>
+              <h6>Tips:</h6>
+              <ul>
+                <li>The size of the hint represents the number of people who used that hint
+                    <ul><li>i.e the most useful hints are probably the smallest ones</li></ul>
+                </li>
+                <li>Often the hints are the password backwards</li>
+                <li>They are sometimes just part of the password</li>
+            </ul>
             </div>
         </div>
+        <div>
+            <button onClick="showInstructions();" class="input-button" id="instructionsButton">Instructions</button>
+            <button onClick="getStarted();" class="input-button">START</button>
+        </div>              
+    </div>
+    <div id="completed" style="text-align:center;display:none;padding:75px 0px 20px 0px;">
+        <h5>Congratulations! You've helped crack passwords because of badly implemented security</h5>
+        <ul>
+            <li>This isn't the first time this has happened, nor the last</li>
+            <li>Internet security is our problem</li>
+            <li>It's a problem that is here now</li>
+            <li>We cannot leave it up to others to keep us safe on the internet.</li>
+            <li>Alan Turing. One of the best code breakers to have existed:<p><img src="http://www.maths.manchester.ac.uk/cryptography_competition/css/ATY_large.png"></li>
+        </ul>
+    </div>
+<div id="checkanswers" class="input-container" style="display:none;">
+    <input type="text" id="input-box" class="input-box" placeholder="Submit your answer" />
+    <button onClick="checkAnswer();" onmouseout="giveFocus();" class="input-button">CHECK</button>
+</div>
+<div style="text-align:center;"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://crowdcracker.golog.co" data-text="Password cracking is fun! Try it yourself!" data-via="_whitesilence" data-size="large" data-hashtags="golog">Tweet</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+<div class="fb-like-container"><div class="fb-like" data-href="http://crowdcracker.golog.co" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div></div>
 
-        <script>
-            var answer = '';
-            var BigScore = 0;
-            var score = 0,
-                attempts = 0;
-            var counter = 0;
-            var knownLimit = 4;
-            var uuid = '';
-            function getStarted () {
+</div>
+
+<script>
+var answer = '';
+var BigScore = 0;
+var score = 0,
+attempts = 0;
+var counter = 0;
+var knownLimit = 4;
+var uuid = '';
+function showInstructions() {
+    $(".instructions").toggle();
+    $("#instructionsButton").text("HIDE")
+}
+function getStarted () {
 
                 //bind a trigger to the input box
                 $('#input-box').bind("enterKey",function(e){
-                   checkAnswer()
-                });
+                 checkAnswer()
+             });
                 //call the trigger on ENTER pressed in text box
                 $('#input-box').keyup(function(e){
                     if(e.keyCode == 13)
@@ -89,10 +124,10 @@
             }
             function giveFocus() {
               $(".input-box").focus();
-            }
-            function checkAnswer () {
-                var attempt = $('input.input-box').val();
-                if ( counter <= knownLimit ) {
+          }
+          function checkAnswer () {
+            var attempt = $('input.input-box').val();
+            if ( counter <= knownLimit ) {
                     //these are ones we know the answer to
                     if ( answer == attempt ) {
                         alert('Correct');
@@ -100,7 +135,7 @@
                         attempts = 0;
                         score += 1;
                         $('#stars-container').html('');
-                        if (score >= 4) {
+                        if (score >= knownLimit) {
                             score = 0;
                             BigScore += 1;
                         }
@@ -126,6 +161,7 @@
                         $('input.input-box').val('');
                         $('#cloud-container').html('');
                         playGame();
+                        counter++
                     }
                     else {
                         attempts += 1;
@@ -136,17 +172,23 @@
                     // Clean the input box and container.
                     $('input.input-box').val('');
                     $('#cloud-container').html('');
-   
+
                     alert("Good attempt!");
 
                     playGame();
+                    counter++
                 }
                 //always store their answer.
                 $.getJSON("https://golog.co/App/CrowdCracker?uuid="+uuid+"&question="+answer+"&answer="+attempt, function (json) {
-                        console.log("done")
+                    console.log("done")
                 });
-                counter++
+            if (BigScore == 10 ) { //game completed!
+                $("#cloud-container").hide();
+                $("#completed").show();
+                $("#checkanswers").hide();
+                $('#difficulty').html("");
             }
+}
 
             
 
@@ -154,25 +196,25 @@
                 /*
                     This needs to show three known clouds, followed by 2 unknown clouds
 
-                */
-                if (counter > 5) { //just two unknowns...
+                    */
+                if (counter > 6) { 
                     counter = 0;
                 }
                 console.log("counter: ", counter)
                 if (counter < knownLimit) { //five knowns
                     createKnownCloud()
                     $('#difficulty').html("EASY")
+                    $('#difficulty').css('color', 'steelblue');
                 } else {
                     createUnknownCloud()
                     $('#difficulty').html("HARD")
+                    $('#difficulty').css('color', 'darkred');
                 } 
 
             }
 
 
             function createUnknownCloud () {
-
-
                 //get the array of hintfile names
                 $.getJSON("_data/unknownHintFiles.json", function (json) {
                     createCloud(json) 
@@ -180,9 +222,6 @@
             }
 
             function createKnownCloud () {
-    
-
-
                 //get the array of hintfile names
                 $.getJSON("_data/knownHintFiles.json", function (json) {
                     createCloud(json) 
@@ -191,9 +230,9 @@
 
             function createCloud(json) {
 
-                    var width = 600,
-                    height = 400;
-                                        //create a random number
+                var width = 700,
+                height = 400;
+                    //create a random number
                     var rand = Math.random();
                     rand *= json.length;
                     rand = Math.floor(rand);
@@ -204,36 +243,36 @@
                     //use the random number to get an entry from the array and
                     //process the random file for the word cloud
                     $.getJSON( json[rand], function (json) {
-                      
+
                         var fill = d3.scale.category20();  
                         d3.layout.cloud().size([width, height])
-                            .words(json)
-                            .padding(5)
-                            .rotate( function () { return 0; } )
-                            .font("Impact")
-                            .fontSize( function (d) { 
-                                if ( d.size/8 < 18 ) {
-                                    return 18;
-                                } 
-                                else if ( d.size/8 > 45 ) {
-                                    return 45
-                                } 
-                                else {
-                                    return d.size/8
-                                }
-                            } )
-                            .on("end", draw)
-                            .start();
+                        .words(json)
+                        .padding(5)
+                        .rotate( function () { return 0; } )
+                        .font("Impact")
+                        .fontSize( function (d) { 
+                            if ( d.size/8 < 18 ) {
+                                return 18;
+                            } 
+                            else if ( d.size/8 > 45 ) {
+                                return 45
+                            } 
+                            else {
+                                return d.size/8
+                            }
+                        } )
+                        .on("end", draw)
+                        .start();
 
                         function draw(words) {
                             d3.select("#cloud-container").append("svg").attr("id","cloud-svg")
-                                .attr("width", width)
-                                .attr("height", height)
-                                .append("g").attr("transform", "translate(300,250)")
-                                .selectAll("text")
-                                .data(words)
-                                .enter().append("text")
-                                .style("font-size", function (d) { return d.size + "px"; } )
+                            .attr("width", width)
+                            .attr("height", height)
+                            .append("g").attr("transform", "translate(300,250)")
+                            .selectAll("text")
+                            .data(words)
+                            .enter().append("text")
+                            .style("font-size", function (d) { return d.size + "px"; } )
                                 //.style("font-family", "Impact")
                                 .style("fill", function (d, i) { return fill(i); } )
                                 .attr("text-anchor", "middle")
@@ -241,44 +280,44 @@
                                     return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
                                 } )
                                 .text( function (d) { return d.text; } );
-                        }
+                            }
                         //the plan is to highlight hints that helped others get the answer
                         $( "text" ).click( function (t) {
                             $( this ).attr('class','important')
                         });
 
                     });
-            }
+}
             //create a pseudo session key
             function guid() {
               function s4() {
                 return Math.floor((1 + Math.random()) * 0x10000)
-                  .toString(16)
-                  .substring(1);
-              }
-              return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                s4() + '-' + s4() + s4() + s4();
+                .toString(16)
+                .substring(1);
             }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
+        }
 
-            $(document).ready( function(){
-                for ( var i=score+BigScore; i<10; i++ ) {
-                    $('#stars-container').append('<i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>');
-                }         
-                uuid = guid();   
-                console.log("uuid for session: ", uuid)    
-            });
+        $(document).ready( function(){
+            for ( var i=score+BigScore; i<10; i++ ) {
+                $('#stars-container').append('<i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>');
+            }         
+            uuid = guid();   
+            console.log("uuid for session: ", uuid)    
+        });
 
         </script>
         <!-- Google Analytics -->
         <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
         ga('create', 'UA-59200850-2', 'auto');
         ga('send', 'pageview');
 
-      </script>
+        </script>
     </body>
-</html>
+    </html>
