@@ -196,8 +196,7 @@ function getStarted () {
                 $.getJSON("https://golog.co/App/CrowdCracker?uuid="+uuid+"&question="+answer+"&answer="+attempt, function (json) {
                     console.log("done")
                 });
-            // if (BigScore == 10 ) { //game completed!
-            if (true) { //game completed!
+            if (BigScore == 10 ) { //game completed!
                 $("#twitterbutton").attr('data-text', 'I completed the password cracker from golog.co! Give it a go!');
                 $("#cloud-container").hide();
                 $("#completed").show();
