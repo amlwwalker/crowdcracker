@@ -34,22 +34,23 @@
     </script>
     <div class="cf" id="container">
         <div id="logo">
-            <div style="float:left;">GO|OG</div>
+            <a style="float:left;" href="https://golog.co">GO|OG</a>
             <div style="float:left;margin-left: 20px;" id="difficulty"></div>
             <div style="float:right;" id="stars-container">
             </div>
             <div style="clear:both;"></div>
         </div>
+        <div class="message"><h5></h5></div>
         <div id="cloud-container">
-            <div style="width:100%; text-align:center; padding:75px 0px 0px 0px;">
+            <div style="width:100%; text-align:center; padding:20px 0px 0px 0px;">
                 <h5>Gamifying Password Hacking</h5>
                 Inspired by <a href="http://zed0.co.uk/crossword/" target="_blank">this crossword</a> and Troy Hunt's <a href="https://haveibeenpwned.com/" target="_blank">HaveIBeenPwned</a><p><br>
-                In October 2013 <a href="http://www.theguardian.com/technology/2013/nov/07/adobe-password-leak-can-check">Adobe was hacked</a> and the passwords of millions of accounts stolen. But because the passwords were encrypted, they haven't yet been cracked. However, you can still work out the most common passwords —  just by looking at the hints. Can you work out what the passwords are?
+                In October 2013 <a href="http://www.theguardian.com/technology/2013/nov/07/adobe-password-leak-can-check">Adobe was hacked</a> and the passwords of millions of accounts stolen. Because the passwords were encrypted, some of them are yet to be cracked. However, you can still work out the most common passwords —  just by looking at the hints. Can you work out what the passwords are?
             </div>
             <div>
                 <div class="instructions" style="text-align:center;">
+                <h5>Instructions</h5>
                  <ul>
-                    <li><h5>Instructions</h5></li>
                   <li>You will be shown a word cloud of words</li>
                   <li>Together, these words are the hints as to what the password might be</li>
                   <li>Using all the information, try and get as many right as possible</li>
@@ -68,8 +69,8 @@
             </div>
         </div>
         <div>
-            <button onClick="showInstructions();" class="input-button" id="instructionsButton">Instructions</button>
             <button onClick="getStarted();" class="input-button">START</button>
+            <button onClick="showInstructions();" class="input-button" id="instructionsButton">Instructions</button>
         </div>              
     </div>
     <div id="completed" style="text-align:center;display:none;padding:75px 0px 20px 0px;">
@@ -86,6 +87,7 @@
 <div id="checkanswers" class="input-container" style="display:none;">
     <input type="text" id="input-box" class="input-box" placeholder="Submit your answer" />
     <button onClick="checkAnswer();" onmouseout="giveFocus();" class="input-button">CHECK</button>
+    <button onClick="skip();" onmouseout="giveFocus();" class="input-button">SKIP</button>
 </div>
 
     <div style="text-align:center;margin:0 auto;">
@@ -117,7 +119,12 @@ function showInstructions() {
     $(".instructions").toggle();
     $("#instructionsButton").text("HIDE")
 }
-function getStarted () {
+function skip() {
+    playGame();
+    $(".message h5").show()
+    $(".message h5").html("Not cool, but ok....").fadeOut( 3000, function(){});
+}
+function getStarted() {
 
                 //bind a trigger to the input box
                 $('#input-box').bind("enterKey",function(e){
@@ -135,7 +142,9 @@ function getStarted () {
                 $('.input-container').show();
                 playGame();
                 giveFocus();
-            }
+                $(".message").show()
+                $(".message h5").html("Begin!")
+}
             function giveFocus() {
               $(".input-box").focus();
           }
@@ -144,7 +153,10 @@ function getStarted () {
             if ( counter <= knownLimit ) {
                     //these are ones we know the answer to
                     if ( answer == attempt ) {
-                        alert('Correct!');
+                        $(".message h5").show();
+                        $(".message h5").html('Correct!').fadeOut( 3000, function() {
+                            console.log("correct")
+                        });;
                         // Update score and stars.
                         attempts = 0;
                         score += 1;
@@ -152,6 +164,10 @@ function getStarted () {
                         if (score >= knownLimit) {
                             score = 0;
                             BigScore += 1;
+                            if (BigScore == 1) { //first red star!
+                                $(".message h5").show();
+                                $(".message h5").html("Four 4 stars = 1 red star! 10 red stars to win!").fadeOut( 5000, function(){})
+                            }
                         }
                         for ( var i=0; i<BigScore; i++ ) {
                             $('#stars-container').append('<i class="mdi-action-grade small" style="color:darkred;"></i>');
@@ -169,25 +185,22 @@ function getStarted () {
                         for ( var i=score+BigScore; i<10; i++ ) {
                             $('#stars-container').append('<i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>');
                         }
-
-
-                        // Clean the input box and container.
-                        $('input.input-box').val('');
-                        $('#cloud-container').html('');
                         playGame();
                         counter++
                     }
                     else {
                         attempts += 1;
-                        alert('Incorrect, try again. You have tried ' + attempts + ' times now.' );
+                        $(".message h5").show();
+                        $(".message h5").html('Incorrect, try again. You have tried ' + attempts + ' times now.' ).fadeOut( 3000, function() {
+                            console.log("incorrect")
+
+                        });
                     }
 
                 } else {
                     // Clean the input box and container.
-                    $('input.input-box').val('');
-                    $('#cloud-container').html('');
-
-                    alert("Thanks! We don’t yet know what the this password is, but if enough people try we can find out!");
+                    $(".message h5").show();
+                    $(".message h5").html("Thanks! We don’t yet know what the this password is, but if enough people try we can find out!").fadeOut( 3000, function() {})
 
                     playGame();
                     counter++
@@ -205,13 +218,17 @@ function getStarted () {
             }
 }
 
+
             
 
             function playGame() {
+                // $(".message").hide()
                 /*
                     This needs to show three known clouds, followed by 2 unknown clouds
 
                     */
+                $('input.input-box').val('');
+                $('#cloud-container').html('');
                 if (counter > 6) { 
                     counter = 0;
                 }
@@ -245,8 +262,8 @@ function getStarted () {
 
             function createCloud(json) {
 
-                var width = 700,
-                height = 400;
+                var width = 800,
+                height = 350;
                     //create a random number
                     var rand = Math.random();
                     rand *= json.length;
@@ -283,7 +300,7 @@ function getStarted () {
                             d3.select("#cloud-container").append("svg").attr("id","cloud-svg")
                             .attr("width", width)
                             .attr("height", height)
-                            .append("g").attr("transform", "translate(300,250)")
+                            .append("g").attr("transform", "translate(400,200)")
                             .selectAll("text")
                             .data(words)
                             .enter().append("text")
@@ -315,6 +332,7 @@ function getStarted () {
         }
 
         $(document).ready( function(){
+            $(".message").hide()
             for ( var i=score+BigScore; i<10; i++ ) {
                 $('#stars-container').append('<i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>');
             }         

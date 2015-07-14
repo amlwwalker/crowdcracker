@@ -11,11 +11,21 @@ html, body {
     line-height: 1em;
     font-weight: 300;
 }
+.message {
+    width:100%;
+    background-color: steelblue;
+    height: 50px;
+    padding: 2px;
+    text-align: center;
+    opacity: 0.8;
+    color: white;
+    display: hidden;
+}
 #difficulty {
     color:darkred;
 }
 #container {
-    width: 720px;
+    width: 820px;
     min-height: 400px;
     margin: 15px auto;
     border: 1px solid #ccc;
@@ -31,6 +41,11 @@ html, body {
     font-weight: 600;
     font-family: 'Montserrat', sans-serif;
     text-shadow: 0px 1px 2px #aaa;
+}
+#logo > a:link, #logo > a:visited, #logo > a:active, #logo > a:hover {
+    margin: 0px; padding:0px;
+    text-decoration: none;
+    color: black;
 }
 #cloud-container {
     padding:10px;
@@ -62,6 +77,8 @@ html, body {
 .input-container {
     padding: 10px 20px;
     outline: 0;
+    margin: 0 auto;
+    display: block;
 }
 .input-box, .input-button, .input-button:active, .input-button:visited {
     display: block;
@@ -85,6 +102,8 @@ html, body {
     color: steelblue;
     font-weight: 700;
     border-radius: 0px 0px 3px 3px;
+    float: left;
+    width: 50%;
 }
 .input-button:hover {
     border: 2px solid steelblue;
