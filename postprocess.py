@@ -21,7 +21,7 @@ def handleLine(line):
 				else:
 					hints[hint] = 1
 	else:
-		print "not five"
+		print "not five" #this is if there aren't enough fields on the line to process the hint
 
 
 def postProcessHints(hintFile, filename, saveAt, limit):
@@ -32,9 +32,8 @@ def postProcessHints(hintFile, filename, saveAt, limit):
 	with open(saveAt + "Passwords/" + filename) as infile:
 	    for line in infile:
 	        handleLine(line)
-	#will output all hints now, even if there is just one....
-	# if len(hints) < 10:
-	# 	return
+	if len(hints) < 10:
+		return
 	for h in hints:
 		if hints[h] > limit:
 			result.append({"text":h,"size":hints[h]})
@@ -42,6 +41,9 @@ def postProcessHints(hintFile, filename, saveAt, limit):
 		jsonData = json.load(data_file)		
 	print "saving to: _data/" + saveAt + "Hints/" + filename.split(".")[0] + ".hints"
 	filename = "_data/" + saveAt + "Hints/" + filename.split(".")[0]+".hints"
+	if len(result) < 3:
+		return
+	#the following is what writes to file
 	with open(filename, 'w+') as outfile:
 		json.dump(result, outfile)
 	jsonData.append(filename)

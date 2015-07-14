@@ -48,7 +48,7 @@ def handleUnknown():
 				print "		----	Found " + str(lineCounter) + " matches"
 
 def handleKnown():
-	with open("knownPasswords") as infile: #if you just want to test, swap for sampleKnownPasswords
+	with open("knownpasswords") as infile: #if you just want to test, swap for sampleKnownPasswords
 	    for line in infile:
 	    	print ".",
 	    	split = line.split(' ')

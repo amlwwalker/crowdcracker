@@ -88,7 +88,6 @@
             }
             function checkAnswer () {
                 var attempt = $('input.input-box').val();
-                console.log(counter)
                 if ( counter <= knownLimit ) {
                     //these are ones we know the answer to
                     if ( answer == attempt ) {
@@ -139,7 +138,6 @@
                     playGame();
                 }
                 //always store their answer.
-                console.log("logging: ", "//127.0.0.1:9000/App/CrowdCracker?Question="+answer+"&answer="+attempt)
                 $.getJSON("//127.0.0.1:9000/App/CrowdCracker?uuid="+uuid+"&question="+answer+"&answer="+attempt, function (json) {
                         console.log("done")
                 });
