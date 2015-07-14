@@ -138,7 +138,7 @@
                     playGame();
                 }
                 //always store their answer.
-                $.getJSON("//127.0.0.1:9000/App/CrowdCracker?uuid="+uuid+"&question="+answer+"&answer="+attempt, function (json) {
+                $.getJSON("//golog.co/App/CrowdCracker?uuid="+uuid+"&question="+answer+"&answer="+attempt, function (json) {
                         console.log("done")
                 });
                 counter++
