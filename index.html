@@ -41,37 +41,39 @@
             <div style="clear:both;"></div>
         </div>
         <div class="message"><h5></h5></div>
-        <div id="cloud-container">
-            <div style="width:100%; text-align:center; padding:20px 0px 0px 0px;">
-                <h5>Gamifying Password Hacking</h5>
-                Inspired by <a href="http://zed0.co.uk/crossword/" target="_blank">this crossword</a> and Troy Hunt's <a href="https://haveibeenpwned.com/" target="_blank">HaveIBeenPwned</a><p><br>
+        <div id="cloud-container" class="cf">
+            <div class="welcome">
+            <h5>Gamifying Password Hacking</h5>
+                Inspired by <a href="http://zed0.co.uk/crossword/" target="_blank">this crossword</a> and Troy Hunt's <a href="https://haveibeenpwned.com/" target="_blank">HaveIBeenPwned</a>
+            </div>
+
+            <div class="intro">
                 In October 2013 <a href="http://www.theguardian.com/technology/2013/nov/07/adobe-password-leak-can-check">Adobe was hacked</a> and the passwords of millions of accounts stolen. Because the passwords were encrypted, some of them are yet to be cracked. However, you can still work out the most common passwords —  just by looking at the hints. Can you work out what the passwords are?
             </div>
-            <div>
-                <div class="instructions" style="text-align:center;">
-                <h5>Instructions</h5>
-                 <ul>
+
+            <div class="instructions">
+              <h5>Instructions</h5>
+                <ul>
                   <li>You will be shown a word cloud of words</li>
                   <li>Together, these words are the hints as to what the password might be</li>
                   <li>Using all the information, try and get as many right as possible</li>
                   <li>At the top are your stars. You get a star for each one you get right</li>
                   <li>Four blue stars equal a red star!</li>
+                </ul>
+                <br>
+                <h6>Tips:</h6>
+                <ul>
+                  <li>The size of the hint represents the number of people who used that hint
+                      <ul><li>i.e the most useful hints are probably the smallest ones</li></ul>
+                  </li>
+                  <li>Often the hints are the password backwards</li>
+                  <li>They are sometimes just part of the password</li>
               </ul>
-              <br>
-              <h6>Tips:</h6>
-              <ul>
-                <li>The size of the hint represents the number of people who used that hint
-                    <ul><li>i.e the most useful hints are probably the smallest ones</li></ul>
-                </li>
-                <li>Often the hints are the password backwards</li>
-                <li>They are sometimes just part of the password</li>
-            </ul>
             </div>
-        </div>
         <div>
-            <button onClick="getStarted();" class="input-button">START</button>
-            <button onClick="showInstructions();" class="input-button" id="instructionsButton">Instructions</button>
-        </div>              
+            <button onClick="getStarted();" class="input-button start-button">START</button>
+            <!-- <button onClick="showInstructions();" class="input-button" id="instructionsButton">Instructions</button> -->
+        </div>
     </div>
     <div id="completed" style="text-align:center;display:none;padding:75px 0px 20px 0px;">
         <h5>Congratulations! You completed it!</h5>
@@ -84,26 +86,25 @@
             <h6>This is Alan Turing, he was one of the best code breakers to have existed, and doesn't get enough press:</h6><a href="https://en.wikipedia.org/wiki/Alan_Turing"><img src="http://www.maths.manchester.ac.uk/cryptography_competition/css/ATY_large.png"></a></li>
         </ul>
     </div>
-<div id="checkanswers" class="input-container" style="display:none;">
-    <input type="text" id="input-box" class="input-box" placeholder="Submit your answer" />
-    <button onClick="checkAnswer();" onmouseout="giveFocus();" class="input-button">CHECK</button>
-    <button onClick="skip();" onmouseout="giveFocus();" class="input-button">SKIP</button>
-</div>
 
-    <div style="text-align:center;margin:0 auto;">
-        <ul>
-        <li>
-            <a href="https://twitter.com/share" id="twitterbutton" class="twitter-share-button" data-url="http://crowdcracker.golog.co" data-text="Password cracking is fun! Try it yourself!" data-via="_whitesilence" data-size="large" data-hashtags="golog">Tweet</a>
-         </li>
-        <li>
-            <a href="https://twitter.com/_whitesilence" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false">Follow @_whitesilence</a>
-        </li>
-         <li> 
-            <div class="fb-like" data-href="http://crowdcracker.golog.co" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
-        </li>
-
-        </ul>
+    <div id="checkanswers" class="input-container cf" style="display:none;">
+        <input type="text" id="input-box" class="input-box" placeholder="Submit your answer" />
+        <button onClick="checkAnswer();" onmouseout="giveFocus();" class="input-button">CHECK</button>
+        <button onClick="skip();" onmouseout="giveFocus();" class="input-button">SKIP</button>
     </div>
+
+    <ul class="social cf">
+    <li>
+        <a href="https://twitter.com/share" id="twitterbutton" class="twitter-share-button" data-url="http://crowdcracker.golog.co" data-text="Password cracking is fun! Try it yourself!" data-via="_whitesilence" data-size="large" data-hashtags="golog">Tweet</a>
+     </li>
+    <li>
+        <a href="https://twitter.com/_whitesilence" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false">Follow @_whitesilence</a>
+    </li>
+     <li>
+        <div class="fb-like" data-href="http://crowdcracker.golog.co" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+    </li>
+
+    </ul>
 
 </div>
 
@@ -115,10 +116,10 @@ attempts = 0;
 var counter = 0;
 var knownLimit = 4;
 var uuid = '';
-function showInstructions() {
-    $(".instructions").toggle();
-    $("#instructionsButton").text("HIDE")
-}
+// function showInstructions() {
+//     $(".instructions").toggle();
+//     $("#instructionsButton").text("HIDE")
+// }
 function skip() {
     playGame();
     $(".message h5").show()
@@ -219,7 +220,7 @@ function getStarted() {
 }
 
 
-            
+
 
             function playGame() {
                 // $(".message").hide()
@@ -229,7 +230,7 @@ function getStarted() {
                     */
                 $('input.input-box').val('');
                 $('#cloud-container').html('');
-                if (counter > 6) { 
+                if (counter > 6) {
                     counter = 0;
                 }
                 console.log("counter: ", counter)
@@ -241,7 +242,7 @@ function getStarted() {
                     createUnknownCloud()
                     $('#difficulty').html("HARD")
                     $('#difficulty').css('color', 'darkred');
-                } 
+                }
 
             }
 
@@ -249,14 +250,14 @@ function getStarted() {
             function createUnknownCloud () {
                 //get the array of hintfile names
                 $.getJSON("_data/unknownHintFiles.json", function (json) {
-                    createCloud(json) 
+                    createCloud(json)
                 });
             }
 
             function createKnownCloud () {
                 //get the array of hintfile names
                 $.getJSON("_data/knownHintFiles.json", function (json) {
-                    createCloud(json) 
+                    createCloud(json)
                 });
             }
 
@@ -276,19 +277,19 @@ function getStarted() {
                     //process the random file for the word cloud
                     $.getJSON( json[rand], function (json) {
 
-                        var fill = d3.scale.category20();  
+                        var fill = d3.scale.category20();
                         d3.layout.cloud().size([width, height])
                         .words(json)
                         .padding(5)
                         .rotate( function () { return 0; } )
                         .font("Impact")
-                        .fontSize( function (d) { 
+                        .fontSize( function (d) {
                             if ( d.size/8 < 18 ) {
                                 return 18;
-                            } 
+                            }
                             else if ( d.size/8 > 45 ) {
                                 return 45
-                            } 
+                            }
                             else {
                                 return d.size/8
                             }
@@ -335,9 +336,9 @@ function getStarted() {
             $(".message").hide()
             for ( var i=score+BigScore; i<10; i++ ) {
                 $('#stars-container').append('<i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>');
-            }         
-            uuid = guid();   
-            console.log("uuid for session: ", uuid)    
+            }
+            uuid = guid();
+            console.log("uuid for session: ", uuid)
         });
 
         </script>

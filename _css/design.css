@@ -1,3 +1,11 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 * {
     margin: 0; padding: 0;
 }
@@ -8,7 +16,7 @@ li {
 html, body {
     font-family: 'Hind', sans-serif;
     font-size: 16px;
-    line-height: 1em;
+    line-height: 1.3em;
     font-weight: 300;
 }
 .message {
@@ -51,29 +59,61 @@ html, body {
     padding:10px;
 }
 #cloud-svg {
-    
+
+}
+
+.welcome {
+    width: 100%;
+    padding: 20px;
+}
+.intro,
+.instructions {
+    float: left;
+    width:50%;
+    padding: 20px;
+}
+
+.welcome,
+.intro {
+    font-size: 1.2em;
+    line-height: 1.4;
 }
 .instructions {
-    display: none;
-    padding: 0px 20px;
+    color: #999;
 }
-.fb-like-container {
-  position: relative;
-  padding: 0;
-  padding-top: 20px;
+
+    .instructions h5 {
+        margin-top: 0;
+    }
+
+    .instructions li {
+        display:list-item;
+        list-style: circle outside none;
+        margin-bottom: 0.2em;
+    }
+
+.social {
+    text-align:center;
+    margin: 3em auto 2em;
+    clear: both;
 }
-.fb-like {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
-      /*transform: scale(1.5);
-    -ms-transform: scale(1.5);
-    -webkit-transform: scale(1.5);
-    -o-transform: scale(1.5);
-    -moz-transform: scale(1.5);*/
-}
+    .fb-like-container {
+      position: relative;
+      padding: 0;
+      padding-top: 20px;
+    }
+    .fb-like {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      /*transform: translate(-50%, -38%);*/
+      transform: scale(1.3) translate(-28%, -35%);
+      -ms-transform: scale(1.3) translate(-28%, -35%);
+      -webkit-transform: scale(1.3) translate(-28%, -35%);
+      -o-transform: scale(1.3) translate(-28%, -35%);
+      -moz-transform: scale(1.3) translate(-28%, -35%);
+    }
 .input-container {
     padding: 10px 20px;
     outline: 0;
@@ -88,7 +128,7 @@ html, body {
     margin: 10px auto;
     padding: 10px;
     background: white;
-    font-size: 1em; 
+    font-size: 1em;
     color: steelblue;
 }
 .input-box {
@@ -96,26 +136,44 @@ html, body {
     border-radius: 3px 3px 0px 0px;
     border-bottom: 0px;
 }
-.input-button, .input-button:active, .input-button:visited {
-    appearance: none;
-    background: #f7f7f7;
-    color: steelblue;
-    font-weight: 700;
-    border-radius: 0px 0px 3px 3px;
+.input-button{
     float: left;
-    width: 50%;
+    width: 49%;
+    margin-right: 2%;
 }
+    .input-button, .input-button:active, .input-button:visited {
+        appearance: none;
+        background: #f7f7f7;
+        color: steelblue;
+        font-weight: 700;
+        border-radius: 0px 0px 3px 3px;
+    }
+
+    .input-button:last-of-type {
+        margin-right: 0;
+    }
+
+    .start-button, .start-button:active, .start-button:visited {
+        width: 100%;
+        margin-top: 2em;
+    }
 .input-button:hover {
     border: 2px solid steelblue;
 }
+
+
+input[type=text]:focus:not([readonly]){
+  border-bottom: 1px solid steelblue;
+  box-shadow: 0 1px 0 0 steelblue;
+}
 .important {
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}  
-text { 
+}
+text {
     font-family: 'Hind', sans-serif;
     font-weight: 600;
-    cursor: pointer; 
-    cursor: hand; 
+    cursor: pointer;
+    cursor: hand;
 }
 /*
 in materialize there is a silly greenish colour, this overrides it, then the js handles giving
@@ -127,5 +185,9 @@ button:focus {
 */
 button:focus {
   outline: none;
-  background-color: #f7f7f7; 
+  background-color: #f7f7f7;
+}
+
+p {
+    margin-bottom: 1em;
 }
