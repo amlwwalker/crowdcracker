@@ -35,7 +35,7 @@
     <div class="cf" id="container">
         <div id="logo">
             <a style="float:left;" href="https://golog.co">GO|OG</a>
-            <div style="float:left;margin-left: 20px;" id="difficulty"></div>
+            <div style="float:left;margin-left: 20px; margin-top: 0.2em;" id="difficulty"></div>
             <div style="float:right;" id="stars-container">
             </div>
             <div style="clear:both;"></div>
@@ -52,7 +52,7 @@
             </div>
 
             <div class="instructions">
-              <h5>Instructions</h5>
+              <h5>How to Play</h5>
                 <ul>
                   <li>You will be shown a word cloud of words</li>
                   <li>Together, these words are the hints as to what the password might be</li>
@@ -61,8 +61,8 @@
                   <li>Four blue stars equal a red star!</li>
                 </ul>
                 <br>
-                <h6>Tips:</h6>
-                <ul>
+                <button onClick="showTips();" id="tipButton">Show Tips</button>
+                <ul id="tips">
                   <li>The size of the hint represents the number of people who used that hint
                       <ul><li>i.e the most useful hints are probably the smallest ones</li></ul>
                   </li>
@@ -72,7 +72,6 @@
             </div>
         <div>
             <button onClick="getStarted();" class="input-button start-button">START</button>
-            <!-- <button onClick="showInstructions();" class="input-button" id="instructionsButton">Instructions</button> -->
         </div>
     </div>
     <div id="completed" style="text-align:center;display:none;padding:75px 0px 20px 0px;">
@@ -116,14 +115,18 @@ attempts = 0;
 var counter = 0;
 var knownLimit = 4;
 var uuid = '';
-// function showInstructions() {
-//     $(".instructions").toggle();
-//     $("#instructionsButton").text("HIDE")
-// }
+function showTips() {
+    $("#tips").toggle();
+    if($("#tips").visible()){
+        $("#tipsButton").text("Hide Tips");
+    } else {
+        $("#tipsButton").text("Show Tips");
+    }
+}
 function skip() {
     playGame();
     $(".message h5").show()
-    $(".message h5").html("Not cool, but ok....").fadeOut( 3000, function(){});
+    $(".message h5").html("Not cool, but ok....").delay(2000).fadeOut( 3000, function(){});
 }
 function getStarted() {
 
@@ -155,7 +158,7 @@ function getStarted() {
                     //these are ones we know the answer to
                     if ( answer == attempt ) {
                         $(".message h5").show();
-                        $(".message h5").html('Correct!').fadeOut( 3000, function() {
+                        $(".message h5").html('Correct!').delay(2000).fadeOut( 3000, function() {
                             console.log("correct")
                         });;
                         // Update score and stars.
@@ -167,7 +170,7 @@ function getStarted() {
                             BigScore += 1;
                             if (BigScore == 1) { //first red star!
                                 $(".message h5").show();
-                                $(".message h5").html("Four 4 stars = 1 red star! 10 red stars to win!").fadeOut( 5000, function(){})
+                                $(".message h5").html("Four 4 stars = 1 red star! 10 red stars to win!").delay(2000).fadeOut( 5000, function(){})
                             }
                         }
                         for ( var i=0; i<BigScore; i++ ) {
@@ -192,7 +195,7 @@ function getStarted() {
                     else {
                         attempts += 1;
                         $(".message h5").show();
-                        $(".message h5").html('Incorrect, try again. You have tried ' + attempts + ' times now.' ).fadeOut( 3000, function() {
+                        $(".message h5").html('Incorrect, try again. You have tried ' + attempts + ' times now.' ).delay(2000).fadeOut( 3000, function() {
                             console.log("incorrect")
 
                         });
@@ -201,7 +204,7 @@ function getStarted() {
                 } else {
                     // Clean the input box and container.
                     $(".message h5").show();
-                    $(".message h5").html("Thanks! We don’t yet know what the this password is, but if enough people try we can find out!").fadeOut( 3000, function() {})
+                    $(".message h5").html("Thanks! We don’t yet know what the this password is, but if enough people try we can find out!").delay(2000).fadeOut( 3000, function() {})
 
                     playGame();
                     counter++
