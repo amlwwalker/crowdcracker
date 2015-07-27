@@ -82,7 +82,6 @@
             <li>Internet security is our problem - we cannot leave it up to others to keep us safe. We must be vigilant</li>
             <li>Tweet that you completed this!</li>
             <p><p>
-            <h6>This is Alan Turing, he was one of the best code breakers to have existed, and doesn't get enough press:</h6><a href="https://en.wikipedia.org/wiki/Alan_Turing"><img src="http://www.maths.manchester.ac.uk/cryptography_competition/css/ATY_large.png"></a></li>
         </ul>
     </div>
 
@@ -94,13 +93,13 @@
 
     <ul class="social cf">
     <li>
-        <a href="https://twitter.com/share" id="twitterbutton" class="twitter-share-button" data-url="http://crowdcracker.golog.co" data-text="Password cracking is fun! Try it yourself!" data-via="_whitesilence" data-size="large" data-hashtags="golog">Tweet</a>
+        <a href="https://twitter.com/share" id="twitterbutton" class="twitter-share-button" data-url="http://crowdcracker.golog.co" data-text="Can you guess the password?" data-size="large" data-hashtags="golog">Tweet</a>
      </li>
     <li>
         <a href="https://twitter.com/_whitesilence" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false">Follow @_whitesilence</a>
     </li>
      <li>
-        <div class="fb-like" data-href="http://crowdcracker.golog.co" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+        <div class="fb-share-button" data-href="http://crowdcracker.golog.co" data-layout="button_count"></div>
     </li>
 
     </ul>
@@ -154,7 +153,7 @@ function getStarted() {
           }
           function checkAnswer () {
             var attempt = $('input.input-box').val();
-            if ( counter <= knownLimit ) {
+            if ( counter < knownLimit ) {
                     //these are ones we know the answer to
                     if ( answer == attempt ) {
                         $(".message h5").show();
@@ -237,7 +236,7 @@ function getStarted() {
                     counter = 0;
                 }
                 console.log("counter: ", counter)
-                if (counter < knownLimit) { //five knowns
+                if (counter < knownLimit - 1) { //five knowns
                     createKnownCloud()
                     $('#difficulty').html("EASY")
                     $('#difficulty').css('color', 'steelblue');
@@ -322,7 +321,8 @@ function getStarted() {
                             $( this ).attr('class','important')
                         });
 
-                    });
+                    })
+                    .fail(function() { console.log("failed, retrying"); createCloud(json); })
 }
             //create a pseudo session key
             function guid() {
