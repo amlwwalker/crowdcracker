@@ -13,6 +13,9 @@ li {
     display:inline-block;
     list-style: none outside none;
 }
+small {
+    font-size: 12px;
+}
 html, body {
     font-family: 'Hind', sans-serif;
     font-size: 16px;
@@ -115,11 +118,6 @@ html, body {
     margin: 3em auto 2em;
     clear: both;
 }
-    .fb-like-container {
-      position: relative;
-      padding: 0;
-      padding-top: 20px;
-    }
     .fb-share-button {
       position: absolute;
       top: 50%;
