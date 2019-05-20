@@ -1,367 +1,543 @@
 <!DOCTYPE html>
 <html>
-<head>
-
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <script src="_js/d3.js"></script>
     <script src="_js/d3.cloud.js"></script>
     <script src="_js/jquery.js"></script>
 
     <!-- Materialize -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
 
     <!-- Google Fonts -->
-    <link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=Hind:400,300,700,600,500' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="_css/design.css">
-    <link rel="stylesheet" type="text/css" href="_css/clearfix.css">
-    <link rel="stylesheet" type="text/css" href="_css/banner.css">
-
-</head>
-<body>
+    <link
+      href="//fonts.googleapis.com/css?family=Montserrat"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="//fonts.googleapis.com/css?family=Hind:400,300,700,600,500"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" type="text/css" href="_css/design.css" />
+    <link rel="stylesheet" type="text/css" href="_css/clearfix.css" />
+    <link rel="stylesheet" type="text/css" href="_css/banner.css" />
+  </head>
+  <body>
     <div class="golog-find-ribbon-wrapper left">
-        <div class="golog-find-ribbon">
-            <a href="https://golog.co/blog/article/Crowdcracker">Find me on Golog!</a>
-        </div>
+      <div class="golog-find-ribbon">
+        <a href="https://github.com/amlwwalker/crowdcracker"
+          >Find me on Github!</a
+        >
+      </div>
     </div>
     <div id="fb-root"></div>
     <script>
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4";
-      fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
+      ;(function(d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0]
+        if (d.getElementById(id)) return
+        js = d.createElement(s)
+        js.id = id
+        js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4"
+        fjs.parentNode.insertBefore(js, fjs)
+      })(document, "script", "facebook-jssdk")
     </script>
     <div class="cf" id="container">
-        <div id="logo">
-            <a style="float:left;" href="https://golog.co">GO|OG</a>
-            <div style="float:left;margin-left: 20px; margin-top: 0.2em;" id="difficulty"></div>
-            <div style="float:right;" id="stars-container">
-            </div>
-            <div style="clear:both;"></div>
+      <div id="logo">
+        <a style="float:left;" href="https://golog.co">GO|OG</a>
+        <div
+          style="float:left;margin-left: 20px; margin-top: 0.2em;"
+          id="difficulty"
+        ></div>
+        <div style="float:right;" id="stars-container"></div>
+        <div style="clear:both;"></div>
+      </div>
+      <div class="message"><h5></h5></div>
+      <div id="cloud-container" class="cf">
+        <div class="welcome">
+          <h5>Gamifying Password Hacking</h5>
+          Inspired by
+          <a href="http://zed0.co.uk/crossword/" target="_blank"
+            >this crossword</a
+          >
+          and Troy Hunt's
+          <a href="https://haveibeenpwned.com/" target="_blank"
+            >HaveIBeenPwned</a
+          >
+          <br /><small
+            >Built by Alex Walker, Luuk Derksen, Jonas Haefele and Vinay
+            Chaudhri</small
+          >
         </div>
-        <div class="message"><h5></h5></div>
-        <div id="cloud-container" class="cf">
-            <div class="welcome">
-            <h5>Gamifying Password Hacking</h5>
-                Inspired by <a href="http://zed0.co.uk/crossword/" target="_blank">this crossword</a> and Troy Hunt's <a href="https://haveibeenpwned.com/" target="_blank">HaveIBeenPwned</a>
-                <br><small>Built by Alex Walker, Luuk Derksen, Jonas Haefele and Vinay Chaudhri</small>
-            </div>
 
-            <div class="intro">
-                In October 2013 <a href="http://www.theguardian.com/technology/2013/nov/07/adobe-password-leak-can-check">Adobe was hacked</a> and the passwords of millions of accounts stolen. Because the passwords were encrypted, some of them are yet to be cracked. However, you can still work out the most common passwords —  just by looking at the hints. Can you work out what the passwords are?
-            </div>
+        <div class="intro">
+          In October 2013
+          <a
+            href="http://www.theguardian.com/technology/2013/nov/07/adobe-password-leak-can-check"
+            >Adobe was hacked</a
+          >
+          and the passwords of millions of accounts stolen. Because the
+          passwords were encrypted, some of them are yet to be cracked. However,
+          you can still work out the most common passwords — just by looking at
+          the hints. Can you work out what the passwords are?
+        </div>
 
-            <div class="instructions">
-              <h5>How to Play</h5>
-                <ul>
-                  <li>You will be shown a word cloud of words</li>
-                  <li>Together, these words are the hints as to what the password might be</li>
-                  <li>Using all the information, try and get as many right as possible</li>
-                  <li>At the top are your stars. You get a star for each one you get right</li>
-                  <li>Four blue stars equal a red star!</li>
-                </ul>
-                <br>
-                <button onClick="showTips();" id="tipButton">Show Tips</button>
-                <ul id="tips">
-                  <li>The size of the hint represents the number of people who used that hint
-                      <ul><li>i.e the most useful hints are probably the smallest ones</li></ul>
-                  </li>
-                  <li>Often the hints are the password backwards</li>
-                  <li>They are sometimes just part of the password</li>
+        <div class="instructions">
+          <h5>How to Play</h5>
+          <ul>
+            <li>You will be shown a word cloud of words</li>
+            <li>
+              Together, these words are the hints as to what the password might
+              be
+            </li>
+            <li>
+              Using all the information, try and get as many right as possible
+            </li>
+            <li>
+              At the top are your stars. You get a star for each one you get
+              right
+            </li>
+            <li>Four blue stars equal a red star!</li>
+          </ul>
+          <br />
+          <button onClick="showTips();" id="tipButton">Show Tips</button>
+          <ul id="tips">
+            <li>
+              The size of the hint represents the number of people who used that
+              hint
+              <ul>
+                <li>
+                  i.e the most useful hints are probably the smallest ones
+                </li>
               </ul>
-            </div>
-        <div>
-            <button onClick="getStarted();" class="input-button start-button">START</button>
+            </li>
+            <li>Often the hints are the password backwards</li>
+            <li>They are sometimes just part of the password</li>
+          </ul>
         </div>
-    </div>
-    <div id="completed" style="text-align:center;display:none;padding:75px 0px 20px 0px;">
+        <div>
+          <button onClick="getStarted();" class="input-button start-button">
+            START
+          </button>
+        </div>
+      </div>
+      <div
+        id="completed"
+        style="text-align:center;display:none;padding:75px 0px 20px 0px;"
+      >
         <h5>Congratulations! You completed it!</h5>
         <ul>
-            <li>Soon we will release the data so we can see what everyone thinks. Follow us on Twitter for more information</li>
-            <li>This isn't the first time passwords and their hints have been leaked, will it be the last</li>
-            <li>Internet security is our problem - we cannot leave it up to others to keep us safe. We must be vigilant</li>
-            <li>Tweet that you completed this!</li>
-            <p><p>
+          <li>
+            Soon we will release the data so we can see what everyone thinks.
+            Follow us on Twitter for more information
+          </li>
+          <li>
+            This isn't the first time passwords and their hints have been
+            leaked, will it be the last
+          </li>
+          <li>
+            Internet security is our problem - we cannot leave it up to others
+            to keep us safe. We must be vigilant
+          </li>
+          <li>Tweet that you completed this!</li>
+          <p></p>
+          <p></p>
         </ul>
+      </div>
+
+      <div id="checkanswers" class="input-container cf" style="display:none;">
+        <input
+          type="text"
+          id="input-box"
+          class="input-box"
+          placeholder="Submit your answer"
+        />
+        <button
+          onClick="checkAnswer();"
+          onmouseout="giveFocus();"
+          class="input-button"
+        >
+          CHECK
+        </button>
+        <button
+          onClick="skip();"
+          onmouseout="giveFocus();"
+          class="input-button"
+        >
+          SKIP
+        </button>
+      </div>
+
+      <ul class="social cf">
+        <li>
+          <a
+            href="https://twitter.com/share"
+            id="twitterbutton"
+            class="twitter-share-button"
+            data-url="http://crowdcracker.golog.co"
+            data-text="Crowdcracker is a new social experiment in hacking. Can you guess the passwords?"
+            data-size="large"
+            data-hashtags="golog"
+            >Tweet</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://twitter.com/_whitesilence"
+            class="twitter-follow-button"
+            data-show-count="false"
+            data-size="large"
+            data-show-screen-name="false"
+            >Follow @_whitesilence</a
+          >
+        </li>
+        <li>
+          <div
+            class="fb-share-button"
+            data-href="http://crowdcracker.golog.co"
+            data-layout="button_count"
+          ></div>
+        </li>
+      </ul>
     </div>
 
-    <div id="checkanswers" class="input-container cf" style="display:none;">
-        <input type="text" id="input-box" class="input-box" placeholder="Submit your answer" />
-        <button onClick="checkAnswer();" onmouseout="giveFocus();" class="input-button">CHECK</button>
-        <button onClick="skip();" onmouseout="giveFocus();" class="input-button">SKIP</button>
-    </div>
-
-    <ul class="social cf">
-    <li>
-        <a href="https://twitter.com/share" id="twitterbutton" class="twitter-share-button" data-url="http://crowdcracker.golog.co" data-text="Crowdcracker is a new social experiment in hacking. Can you guess the passwords?" data-size="large" data-hashtags="golog">Tweet</a>
-     </li>
-    <li>
-        <a href="https://twitter.com/_whitesilence" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false">Follow @_whitesilence</a>
-    </li>
-     <li>
-        <div class="fb-share-button" data-href="http://crowdcracker.golog.co" data-layout="button_count"></div>
-    </li>
-
-    </ul>
-
-</div>
-
-<script>
-var answer = '';
-var BigScore = 0;
-var score = 0,
-attempts = 0;
-var counter = 0;
-var knownLimit = 4;
-var uuid = '';
-function showTips() {
-    $("#tips").toggle();
-    if($("#tips").visible()){
-        $("#tipsButton").text("Hide Tips");
-    } else {
-        $("#tipsButton").text("Show Tips");
-    }
-}
-function skip() {
-    playGame();
-    $(".message h5").show()
-    $(".message h5").html("Not cool, but ok....").delay(2000).fadeOut( 3000, function(){});
-}
-function getStarted() {
-
-                //bind a trigger to the input box
-                $('#input-box').bind("enterKey",function(e){
-                 checkAnswer()
-             });
-                //call the trigger on ENTER pressed in text box
-                $('#input-box').keyup(function(e){
-                    if(e.keyCode == 13)
-                    {
-                        $(this).trigger("enterKey");
-                    }
-                });
-
-                $('#cloud-container').html('');
-                $('.input-container').show();
-                playGame();
-                giveFocus();
-                $(".message").show()
-                $(".message h5").html("Begin!")
-}
-            function giveFocus() {
-              $(".input-box").focus();
+    <script>
+      var answer = ""
+      var BigScore = 0
+      var score = 0,
+        attempts = 0
+      var counter = 0
+      var knownLimit = 4
+      var uuid = ""
+      function showTips() {
+        $("#tips").toggle()
+        if ($("#tips").visible()) {
+          $("#tipsButton").text("Hide Tips")
+        } else {
+          $("#tipsButton").text("Show Tips")
+        }
+      }
+      function skip() {
+        playGame()
+        $(".message h5").show()
+        $(".message h5")
+          .html("Not cool, but ok....")
+          .delay(2000)
+          .fadeOut(3000, function() {})
+      }
+      function getStarted() {
+        //bind a trigger to the input box
+        $("#input-box").bind("enterKey", function(e) {
+          checkAnswer()
+        })
+        //call the trigger on ENTER pressed in text box
+        $("#input-box").keyup(function(e) {
+          if (e.keyCode == 13) {
+            $(this).trigger("enterKey")
           }
-          function checkAnswer () {
-            var attempt = $('input.input-box').val();
-            if ( counter < knownLimit ) {
-                    //these are ones we know the answer to
-                    if ( answer == attempt ) {
-                        $(".message h5").show();
-                        $(".message h5").html('Correct!').delay(2000).fadeOut( 3000, function() {
-                            console.log("correct")
-                        });;
-                        // Update score and stars.
-                        attempts = 0;
-                        score += 1;
-                        $('#stars-container').html('');
-                        if (score >= knownLimit) {
-                            score = 0;
-                            BigScore += 1;
-                            if (BigScore == 1) { //first red star!
-                                $(".message h5").show();
-                                $(".message h5").html("Four 4 stars = 1 red star! 10 red stars to win!").delay(2000).fadeOut( 5000, function(){})
-                            }
-                        }
-                        for ( var i=0; i<BigScore; i++ ) {
-                            $('#stars-container').append('<i class="mdi-action-grade small" style="color:darkred;"></i>');
-                        }
-                        for ( var i=0; i<score; i++ ) {
-                            $('#stars-container').append('<i class="mdi-action-grade small" style="color:steelblue;"></i>');
-                        }
+        })
 
-                        if (score+BigScore > 10) {
-                            $('#stars-container').html('');
-                            score = 0;
-                            BigScore = 0;
-                        }
-
-                        for ( var i=score+BigScore; i<10; i++ ) {
-                            $('#stars-container').append('<i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>');
-                        }
-                        playGame();
-                        counter++
-                    }
-                    else {
-                        attempts += 1;
-                        $(".message h5").show();
-                        $(".message h5").html('Incorrect, try again. You have tried ' + attempts + ' times now.' ).delay(2000).fadeOut( 3000, function() {
-                            console.log("incorrect")
-
-                        });
-                    }
-
-                } else {
-                    // Clean the input box and container.
-                    $(".message h5").show();
-                    $(".message h5").html("We currently don’t yet know what the this password is!").delay(2000).fadeOut( 3000, function() {})
-
-                    playGame();
-                    counter++
-                }
-                //always store their answer.
-                $.getJSON("https://golog.co/App/CrowdCracker?uuid="+uuid+"&question="+answer+"&answer="+attempt, function (json) {
-                    console.log("done")
-                });
-            if (BigScore == 10 ) { //game completed!
-                $("#twitterbutton").attr('data-text', 'I completed the password cracker from golog.co! Give it a go!');
-                $("#cloud-container").hide();
-                $("#completed").show();
-                $("#checkanswers").hide();
-                $('#difficulty').html("");
+        $("#cloud-container").html("")
+        $(".input-container").show()
+        playGame()
+        giveFocus()
+        $(".message").show()
+        $(".message h5").html("Begin!")
+      }
+      function giveFocus() {
+        $(".input-box").focus()
+      }
+      function checkAnswer() {
+        var attempt = $("input.input-box").val()
+        if (counter < knownLimit) {
+          //these are ones we know the answer to
+          if (answer == attempt) {
+            $(".message h5").show()
+            $(".message h5")
+              .html("Correct!")
+              .delay(2000)
+              .fadeOut(3000, function() {
+                console.log("correct")
+              })
+            // Update score and stars.
+            attempts = 0
+            score += 1
+            $("#stars-container").html("")
+            if (score >= knownLimit) {
+              score = 0
+              BigScore += 1
+              if (BigScore == 1) {
+                //first red star!
+                $(".message h5").show()
+                $(".message h5")
+                  .html("Four 4 stars = 1 red star! 10 red stars to win!")
+                  .delay(2000)
+                  .fadeOut(5000, function() {})
+              }
             }
-}
+            for (var i = 0; i < BigScore; i++) {
+              $("#stars-container").append(
+                '<i class="mdi-action-grade small" style="color:darkred;"></i>'
+              )
+            }
+            for (var i = 0; i < score; i++) {
+              $("#stars-container").append(
+                '<i class="mdi-action-grade small" style="color:steelblue;"></i>'
+              )
+            }
 
+            if (score + BigScore > 10) {
+              $("#stars-container").html("")
+              score = 0
+              BigScore = 0
+            }
 
+            for (var i = score + BigScore; i < 10; i++) {
+              $("#stars-container").append(
+                '<i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>'
+              )
+            }
+            playGame()
+            counter++
+          } else {
+            attempts += 1
+            $(".message h5").show()
+            $(".message h5")
+              .html(
+                "Incorrect, try again. You have tried " +
+                  attempts +
+                  " times now."
+              )
+              .delay(2000)
+              .fadeOut(3000, function() {
+                console.log("incorrect")
+              })
+          }
+        } else {
+          // Clean the input box and container.
+          $(".message h5").show()
+          $(".message h5")
+            .html("We currently don’t yet know what the this password is!")
+            .delay(2000)
+            .fadeOut(3000, function() {})
 
+          playGame()
+          counter++
+        }
+        //always store their answer.
+        $.getJSON(
+          "https://golog.co/App/CrowdCracker?uuid=" +
+            uuid +
+            "&question=" +
+            answer +
+            "&answer=" +
+            attempt,
+          function(json) {
+            console.log("done")
+          }
+        )
+        if (BigScore == 10) {
+          //game completed!
+          $("#twitterbutton").attr(
+            "data-text",
+            "I completed the password cracker from golog.co! Give it a go!"
+          )
+          $("#cloud-container").hide()
+          $("#completed").show()
+          $("#checkanswers").hide()
+          $("#difficulty").html("")
+        }
+      }
 
-            function playGame() {
-                // $(".message").hide()
-                /*
+      function playGame() {
+        // $(".message").hide()
+        /*
                     This needs to show three known clouds, followed by 2 unknown clouds
 
                     */
-                $('input.input-box').val('');
-                $('#cloud-container').html('');
-                if (counter > knownLimit + 2) { //some limit
-                    counter = 0;
-                }
-                console.log("counter: ", counter)
-                if (counter < knownLimit - 1) { //five knowns
-                    createKnownCloud()
-                    $('#difficulty').html("EASY")
-                    $('#difficulty').css('color', 'steelblue');
-                } else {
-                    createUnknownCloud()
-                    $('#difficulty').html("HARD")
-                    $('#difficulty').css('color', 'darkred');
-                }
-
-            }
-
-
-            function createUnknownCloud () {
-                //get the array of hintfile names
-                $.getJSON("_data/unknownHintFiles.json", function (json) {
-                    createCloud(json)
-                });
-            }
-
-            function createKnownCloud () {
-                //get the array of hintfile names
-                $.getJSON("_data/knownHintFiles.json", function (json) {
-                    createCloud(json)
-                });
-            }
-
-            function createCloud(json) {
-
-                var width = 800,
-                height = 350;
-                    //create a random number
-                    var rand = Math.random();
-                    rand *= json.length;
-                    rand = Math.floor(rand);
-
-                    var answerSplit = json[rand].replace('.hints','').split('/');
-                    answer = answerSplit[answerSplit.length - 1]
-
-                    //use the random number to get an entry from the array and
-                    //process the random file for the word cloud
-                    $.getJSON( json[rand], function (json) {
-
-                        var fill = d3.scale.category20();
-                        d3.layout.cloud().size([width, height])
-                        .words(json)
-                        .padding(5)
-                        .rotate( function () { return 0; } )
-                        .font("Impact")
-                        .fontSize( function (d) {
-                            if ( d.size/8 < 18 ) {
-                                return 18;
-                            }
-                            else if ( d.size/8 > 45 ) {
-                                return 45
-                            }
-                            else {
-                                return d.size/8
-                            }
-                        } )
-                        .on("end", draw)
-                        .start();
-
-                        function draw(words) {
-                            d3.select("#cloud-container").append("svg").attr("id","cloud-svg")
-                            .attr("width", width)
-                            .attr("height", height)
-                            .append("g").attr("transform", "translate(400,200)")
-                            .selectAll("text")
-                            .data(words)
-                            .enter().append("text")
-                            .style("font-size", function (d) { return d.size + "px"; } )
-                                //.style("font-family", "Impact")
-                                .style("fill", function (d, i) { return fill(i); } )
-                                .attr("text-anchor", "middle")
-                                .attr("transform", function (d) {
-                                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-                                } )
-                                .text( function (d) { return d.text; } );
-                            }
-                        //the plan is to highlight hints that helped others get the answer
-                        $( "text" ).click( function (t) {
-                            $( this ).attr('class','important')
-                        });
-
-                    })
-                    .fail(function() { console.log("failed, retrying"); createCloud(json); })
-}
-            //create a pseudo session key
-            function guid() {
-              function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                .toString(16)
-                .substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-            s4() + '-' + s4() + s4() + s4();
+        $("input.input-box").val("")
+        $("#cloud-container").html("")
+        if (counter > knownLimit + 2) {
+          //some limit
+          counter = 0
         }
+        console.log("counter: ", counter)
+        if (counter < knownLimit - 1) {
+          //five knowns
+          createKnownCloud()
+          $("#difficulty").html("EASY")
+          $("#difficulty").css("color", "steelblue")
+        } else {
+          createUnknownCloud()
+          $("#difficulty").html("HARD")
+          $("#difficulty").css("color", "darkred")
+        }
+      }
 
-        $(document).ready( function(){
-            $(".message").hide()
-            for ( var i=score+BigScore; i<10; i++ ) {
-                $('#stars-container').append('<i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>');
-            }
-            uuid = guid();
-            console.log("uuid for session: ", uuid)
-        });
+      function createUnknownCloud() {
+        //get the array of hintfile names
+        $.getJSON("_data/unknownHintFiles.json", function(json) {
+          createCloud(json)
+        })
+      }
 
-        </script>
-        <!-- Google Analytics -->
-        <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      function createKnownCloud() {
+        //get the array of hintfile names
+        $.getJSON("_data/knownHintFiles.json", function(json) {
+          createCloud(json)
+        })
+      }
 
-        ga('create', 'UA-59200850-2', 'auto');
-        ga('send', 'pageview');
+      function createCloud(json) {
+        var width = 800,
+          height = 350
+        //create a random number
+        var rand = Math.random()
+        rand *= json.length
+        rand = Math.floor(rand)
 
-        </script>
-        <!-- twitter scripting -->
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-        </script>
-    </body>
-    </html>
+        var answerSplit = json[rand].replace(".hints", "").split("/")
+        answer = answerSplit[answerSplit.length - 1]
+
+        //use the random number to get an entry from the array and
+        //process the random file for the word cloud
+        $.getJSON(json[rand], function(json) {
+          var fill = d3.scale.category20()
+          d3.layout
+            .cloud()
+            .size([width, height])
+            .words(json)
+            .padding(5)
+            .rotate(function() {
+              return 0
+            })
+            .font("Impact")
+            .fontSize(function(d) {
+              if (d.size / 8 < 18) {
+                return 18
+              } else if (d.size / 8 > 45) {
+                return 45
+              } else {
+                return d.size / 8
+              }
+            })
+            .on("end", draw)
+            .start()
+
+          function draw(words) {
+            d3.select("#cloud-container")
+              .append("svg")
+              .attr("id", "cloud-svg")
+              .attr("width", width)
+              .attr("height", height)
+              .append("g")
+              .attr("transform", "translate(400,200)")
+              .selectAll("text")
+              .data(words)
+              .enter()
+              .append("text")
+              .style("font-size", function(d) {
+                return d.size + "px"
+              })
+              //.style("font-family", "Impact")
+              .style("fill", function(d, i) {
+                return fill(i)
+              })
+              .attr("text-anchor", "middle")
+              .attr("transform", function(d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")"
+              })
+              .text(function(d) {
+                return d.text
+              })
+          }
+          //the plan is to highlight hints that helped others get the answer
+          $("text").click(function(t) {
+            $(this).attr("class", "important")
+          })
+        }).fail(function() {
+          console.log("failed, retrying")
+          createCloud(json)
+        })
+      }
+      //create a pseudo session key
+      function guid() {
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1)
+        }
+        return (
+          s4() +
+          s4() +
+          "-" +
+          s4() +
+          "-" +
+          s4() +
+          "-" +
+          s4() +
+          "-" +
+          s4() +
+          s4() +
+          s4()
+        )
+      }
+
+      $(document).ready(function() {
+        $(".message").hide()
+        for (var i = score + BigScore; i < 10; i++) {
+          $("#stars-container").append(
+            '<i class="mdi-action-grade small" style="color:grey;opacity:0.5;"></i>'
+          )
+        }
+        uuid = guid()
+        console.log("uuid for session: ", uuid)
+      })
+    </script>
+    <!-- Google Analytics -->
+    <script>
+      ;(function(i, s, o, g, r, a, m) {
+        i["GoogleAnalyticsObject"] = r
+        ;(i[r] =
+          i[r] ||
+          function() {
+            ;(i[r].q = i[r].q || []).push(arguments)
+          }),
+          (i[r].l = 1 * new Date())
+        ;(a = s.createElement(o)), (m = s.getElementsByTagName(o)[0])
+        a.async = 1
+        a.src = g
+        m.parentNode.insertBefore(a, m)
+      })(
+        window,
+        document,
+        "script",
+        "//www.google-analytics.com/analytics.js",
+        "ga"
+      )
+
+      ga("create", "UA-59200850-2", "auto")
+      ga("send", "pageview")
+    </script>
+    <!-- twitter scripting -->
+    <script>
+      !(function(d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0],
+          p = /^http:/.test(d.location) ? "http" : "https"
+        if (!d.getElementById(id)) {
+          js = d.createElement(s)
+          js.id = id
+          js.src = p + "://platform.twitter.com/widgets.js"
+          fjs.parentNode.insertBefore(js, fjs)
+        }
+      })(document, "script", "twitter-wjs")
+    </script>
+  </body>
+</html>
